@@ -43,6 +43,24 @@
         .code-snippet .fn  { color: #67e8f9; }
         .code-snippet .cm  { color: #475569; font-style: italic; }
         .phase-divider { display: flex; align-items: center; justify-content: center; background: #f1f5f9; padding: 10px 0; font-size: 1.4rem; color: #94a3b8; }
+
+        /* ── Theory section ── */
+        .theory { margin-bottom: 50px; background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; padding: 32px 36px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07); }
+        .theory-header { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+        .theory-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; background: #fef9c3; color: #854d0e; margin-bottom: 10px; }
+        .theory h2.theory-title { font-size: 1.1rem; color: #1e293b; margin: 0 0 4px; }
+        .theory > .theory-lead { font-size: 0.9rem; color: #475569; margin: 0 0 24px; }
+        .theory h3 { color: #2980b9; font-size: 1rem; margin: 24px 0 8px; }
+        .theory h4 { color: #2c3e50; font-size: 0.95rem; border-left: 4px solid #3b82f6; padding-left: 10px; margin: 20px 0 8px; }
+        .theory p, .theory li { font-size: 0.88rem; color: #334155; line-height: 1.7; }
+        .theory ul { padding-left: 20px; margin: 6px 0; }
+        .theory .th-highlight { background: #f8fafc; padding: 14px 18px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 14px; }
+        .theory table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.86rem; }
+        .theory th, .theory td { border: 1px solid #e2e8f0; padding: 10px 14px; text-align: left; }
+        .theory th { background: #3b82f6; color: #fff; font-weight: 600; }
+        .theory tr:nth-child(even) td { background: #f8fafc; }
+        .theory .th-conclusion { background: #e8f4fd; border-left: 4px solid #2980b9; padding: 14px 18px; margin-top: 20px; border-radius: 0 8px 8px 0; font-size: 0.87rem; color: #1e3a5f; font-style: italic; }
+        .formula { font-family: 'Consolas','Monaco',monospace; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
     </style>
 </head>
 <body>
@@ -84,7 +102,7 @@
                                 <div class="code-snippet">final_df.columns = [
     unidecode(col).lower().replace(<span class="st">' '</span>, <span class="st">'_'</span>)
     <span class="kw">for</span> col <span class="kw">in</span> final_df.columns
-]  <span class="cm"># "Điểm Toán" → "diem_toan"</span></div>
+]  <span class="cm"># "Tin học" → "tin_hoc"</span></div>
                             </div>
                         </li>
                         <li>
@@ -142,14 +160,16 @@ final_df.to_parquet(output_filename,
                             <span class="step-num">2</span>
                             <div class="step-detail">
                                 <span class="step-title">Thống kê mô tả</span>
-                                <span class="step-desc">Tính mean, median, std, min/max từng môn theo từng kỳ thi.</span>
+                                <span class="step-desc">Tính mean, median, std theo từng môn.
+                                    <br>Thống kê số lượng thí sinh tham dự, số lượt đạt điểm 10 và điểm 0.
+                                </span>
                             </div>
                         </li>
                         <li>
                             <span class="step-num">3</span>
                             <div class="step-detail">
                                 <span class="step-title">Vẽ biểu đồ phân phối</span>
-                                <span class="step-desc">Histogram + KDE, so sánh kỳ CT2006 và CT2018 trên cùng biểu đồ.</span>
+                                <span class="step-desc">Thể hiện phân phối điểm với khoảng cách mỗi cột là 0.5 điểm.</span>
                             </div>
                         </li>
                         <li>
@@ -159,17 +179,85 @@ final_df.to_parquet(output_filename,
                                 <span class="step-desc">Lưu từng biểu đồ vào thư mục <code>charts/</code> để hiển thị bên dưới.</span>
                             </div>
                         </li>
-                        <li>
-                            <span class="step-num">5</span>
-                            <div class="step-detail">
-                                <span class="step-title">Nhận xét & báo cáo</span>
-                                <span class="step-desc">Điền nhận xét trực tiếp vào từng ô bên dưới cho từng môn học.</span>
-                            </div>
-                        </li>
                     </ul>
                 </div>
 
             </div><!-- /.pipeline-phases -->
+        </section>
+        <!-- ══════════════════════════════════════════ -->
+
+        <!-- ══════════════════════════════════════════
+             CƠ SỞ LÝ THUYẾT
+             ══════════════════════════════════════════ -->
+        <section class="theory">
+            <span class="theory-badge">Cơ sở lý thuyết</span>
+            <h2 class="theory-title">📚 Phân Tích Phân Phối Điểm Số Dưới Góc Độ Đo Lường Giáo Dục</h2>
+            <p class="theory-lead">Để đánh giá một biểu đồ phân phối điểm số, chúng ta sử dụng các nền tảng khoa học từ <strong>Lý thuyết Đo lường Giáo dục (Educational Measurement)</strong> nhằm bóc tách tính hiệu lực và độ tin cậy của đề thi.</p>
+
+            <h4>1. Lý thuyết Ứng đáp Câu hỏi (Item Response Theory – IRT)</h4>
+            <div class="th-highlight">
+                <p>Trong các kỳ thi chuẩn hóa, mô hình <strong>3 tham số (3PL)</strong> được áp dụng để đảm bảo đề thi phản ánh đúng năng lực thí sinh:</p>
+                <ul>
+                    <li><strong>Độ khó (Difficulty – <i>b</i>):</strong> Hàm thông tin đạt giá trị tối ưu khi giá trị <i>b</i> hội tụ quanh mức 0 (tương đương điểm 5.0). Nếu đa số câu hỏi có <i>b > 0</i>, phổ điểm sẽ bị đẩy về bên trái (lệch trái nhẹ), cho thấy đề thi có độ thách thức cao so với năng lực đại trà.</li>
+                    <li><strong>Độ phân biệt (Discrimination – <i>a</i>):</strong> Hệ số này quyết định khả năng tách biệt giữa các tầng năng lực. Chỉ số <i>a</i> cao dẫn đến <strong>Độ lệch chuẩn (SD)</strong> rộng, giúp phân loại rõ rệt nhóm thí sinh giỏi và trung bình.</li>
+                    <li><strong>Yếu tố đoán mò (Guessing – <i>c</i>):</strong> Với trắc nghiệm 4 lựa chọn, xác suất may mắn là 25%. Các nhà đo lường thường thiết kế độ khó để điểm trung bình thực tế rơi vào khoảng <strong>4.5 – 5.5</strong> nhằm triệt tiêu nhiễu từ việc khoanh lụi.</li>
+                </ul>
+            </div>
+
+            <h4>2. Quy tắc Phân phối Chuẩn &amp; Độ phân tán</h4>
+            <div class="th-highlight">
+                <p>Năng lực của quần thể thí sinh (&gt; 1 triệu người) tuân theo đường cong Gauss. Một đề thi lý tưởng cần thỏa mãn các điều kiện thống kê sau:</p>
+                <ul>
+                    <li><strong>Ngưỡng tin cậy (68-95-99.7):</strong> Một kỳ thi có giá trị hiệu lực cao khi khoảng 95% dữ liệu nằm trong phạm vi <span class="formula">[Mean − 2SD, Mean + 2SD]</span>.</li>
+                    <li><strong>Tối ưu hóa Độ lệch chuẩn (SD):</strong>
+                        <ul>
+                            <li>Để phổ điểm bao phủ rộng từ 1 đến 9 điểm, khoảng cách 4 lần SD phải tương đương 7–8 đơn vị điểm.</li>
+                            <li><strong>Tính toán:</strong> 8 / 4 = 2.0 → <strong>SD lý tưởng nằm trong khoảng 1.5 – 2.0</strong>.</li>
+                            <li>Nếu SD &lt; 1.5: Phổ điểm bị "nhọn", gây hiện tượng trùng điểm cao, khó xét tuyển đại học.</li>
+                            <li>Nếu SD &gt; 2.0: Phổ điểm quá "dẹt", cho thấy sai số đo lường lớn hoặc đề thi thiếu tập trung.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <h4>3. Phân tích Hiện tượng Lệch phải (Positive Skewness)</h4>
+            <div class="th-highlight">
+                <p>Khi biểu đồ có đuôi kéo dài về bên phải và đỉnh dồn về bên trái (điểm thấp), các chuyên gia đánh giá dựa trên các chỉ số:</p>
+                <ul>
+                    <li><strong>Hiệu ứng sàn (Floor Effect):</strong> Đỉnh phổ điểm rơi vào dải 2.0 – 3.5 là dấu hiệu đề thi quá khó, vượt quá ngưỡng nhận thức của đại bộ phận thí sinh.</li>
+                    <li><strong>Tính phân hóa cực đoan:</strong> Các câu hỏi vận dụng đóng vai trò là "vách đá", khiến nhóm trung bình khó có cơ hội bứt phá, gây mất động lực học tập.</li>
+                    <li><strong>Giá trị đo lường:</strong> Phổ điểm này chỉ có giá trị trong việc tuyển chọn thiên tài, nhưng thất bại trong việc đánh giá mức độ hoàn thành chương trình giáo dục phổ thông.</li>
+                </ul>
+            </div>
+
+            <h4>Bảng Đối Chiếu Chỉ Số Lý Tưởng</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Chỉ số thống kê</th>
+                        <th>Ngưỡng lý tưởng</th>
+                        <th>Mục tiêu đo lường</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Điểm trung bình (Mean)</td>
+                        <td>5.0 – 5.5</td>
+                        <td>Tối ưu hóa hàm thông tin và tính đối xứng của phổ điểm.</td>
+                    </tr>
+                    <tr>
+                        <td>Độ lệch chuẩn (SD)</td>
+                        <td>1.6 – 2.0</td>
+                        <td>Tạo không gian phân hóa đủ rộng cho các tầng năng lực.</td>
+                    </tr>
+                    <tr>
+                        <td>Hệ số lệch (Skewness)</td>
+                        <td>Tiệm cận 0</td>
+                        <td>Phản ánh sự tương thích giữa đề thi và năng lực thực tế.</td>
+                    </tr>
+                </tbody>
+            </table>
+
         </section>
         <!-- ══════════════════════════════════════════ -->
 
@@ -182,7 +270,11 @@ final_df.to_parquet(output_filename,
 
             <div class="card">
                 <h2>💬 Nhận xét – Môn Toán</h2>
-                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về môn Toán tại đây..."></div>
+                <div class="comment-body" contenteditable="true" data-placeholder="Phổ điểm môn Toán cho thấy đây là một đề thi có độ phân hóa tốt nhưng độ khó cao, ưu tiên phân cấp thí sinh hơn là mục tiêu khuyến khích điểm số cao.
+Với Điểm trung bình (4.80) và Trung vị (4.60) nằm dưới mức lý tưởng, tạo ra phân phối lệch phải nhẹ do tham số độ khó (b) vượt năng lực đại trà.
+Độ lệch chuẩn (1.69) nằm trong 'ngưỡng vàng' (1.5 - 2.0) minh chứng tham số phân biệt (a) hoạt động hiệu quả, giúp sàng lọc rõ rệt các tầng năng lực cho tuyển sinh đại học.
+Phổ điểm hình chuông mượt mà và số lượng thí sinh ở vùng điểm liệt thấp cho thấy kỹ thuật kiểm soát tham số đoán mò (c) tốt và sai số đo lường nhỏ.
+Mục tiêu 'chống liệt' và tốt nghiệp vẫn được đảm bảo khi đỉnh phổ điểm (Mode) rơi vào dải 4.0 - 5.0, giúp nhóm học sinh trung bình dễ dàng đạt ngưỡng 3-5 điểm"></div>
             </div>
 
             <div class="card">
@@ -192,7 +284,12 @@ final_df.to_parquet(output_filename,
 
             <div class="card">
                 <h2>💬 Nhận xét – Môn Ngữ văn</h2>
-                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về môn Ngữ văn tại đây..."></div>
+                <div class="comment-body" contenteditable="true" data-placeholder="Phổ điểm môn Ngữ văn cho thấy đây là một đề thi có độ khó thấp và tính ổn định cao, ưu tiên mục tiêu đảm bảo quyền lợi tốt nghiệp và khuyến khích điểm số đại trà cho thí sinh.
+Với Điểm trung bình (6.99) và Trung vị (7.25) nằm cao hơn hẳn mức lý tưởng (5.0), phổ điểm tạo ra phân phối lệch trái rõ rệt do tham số độ khó (b) thấp hơn năng lực thực tế của quần thể thí sinh.
+Độ lệch chuẩn (1.29) nằm dưới ngưỡng vàng (1.5 - 2.0) khiến phổ điểm có dạng 'nhọn', cho thấy tham số phân biệt (a) ở mức trung bình, dẫn đến việc tập trung quá đông thí sinh ở dải điểm khá-giỏi và gây khó khăn nhất định cho việc sàng lọc khắt khe ở tầng năng lực tinh hoa.
+Hình dáng phổ điểm dốc đều về phía điểm cao và không ghi nhận điểm 10 nào cho thấy quy trình chấm thi tự luận được kiểm soát chặt chẽ, loại bỏ hoàn toàn các biến số về tham số đoán mò (c) thường thấy ở hình thức trắc nghiệm.
+Mục tiêu tốt nghiệp được đáp ứng tối ưu khi đỉnh phổ điểm (Mode) rơi vào dải 7.0 - 8.0, giúp đại bộ phận thí sinh dễ dàng vượt xa ngưỡng điểm liệt và tạo ra 'vùng đệm' điểm số an toàn để đảm bảo điều kiện công nhận tốt nghiệp THPT.
+Sự 'nén điểm' lớn ở vùng 7.0 - 8.5 sẽ khiến môn Văn ít có tính sàng lọc, đẩy áp lực phân hóa trực tiếp lên các môn còn lại trong tổ hợp xét tuyển, đồng thời làm tăng mạnh mức độ cạnh tranh giữa những thí sinh cùng dải điểm khá-giỏi."></div>
             </div>
 
             <div class="card">
@@ -202,7 +299,11 @@ final_df.to_parquet(output_filename,
 
             <div class="card">
                 <h2>💬 Nhận xét – Môn Vật lí</h2>
-                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về môn Vật lí tại đây..."></div>
+                <div class="comment-body" contenteditable="true" data-placeholder="Phổ điểm môn Vật lý cho thấy một đề thi có độ khó thấp và tính sàng lọc ở nhóm xuất sắc bị suy giảm đáng kể do hiện tượng 'lạm phát' điểm tuyệt đối.
+Với Điểm trung bình (6.98) và Trung vị (7.00) lệch xa mức lý tưởng (5.0), tham số độ khó (b) đang thấp hơn nhiều so với năng lực thực tế của nhóm thí sinh xét tuyển khối tự nhiên.
+Dù Độ lệch chuẩn (1.52) vừa chạm ngưỡng tối thiểu của 'vùng phân hóa', nhưng việc có gần 4.000 điểm 10 cho thấy các câu hỏi cực khó chưa đủ mạnh để tách biệt nhóm học sinh giỏi và nhóm xuất sắc.
+Hình thái phổ điểm lệch trái với đỉnh dồn cao về phía 7.5 - 8.0 điểm minh chứng cho một đề thi thiên về mục tiêu hỗ trợ tốt nghiệp và làm đẹp hồ sơ hơn là mục tiêu phân loại tinh hoa.
+Sự 'tắc nghẽn' ở dải điểm 9.5 - 10 sẽ gây khó khăn trực tiếp cho các trường đại học tốp đầu, khi điểm số không còn phản ánh được sự chênh lệch năng lực giữa những thí sinh dẫn đầu."></div>
             </div>
 
             <div class="card">
