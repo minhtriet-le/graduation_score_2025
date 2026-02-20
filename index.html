@@ -19,17 +19,17 @@
         .footer { text-align: center; margin-top: 60px; color: #64748b; font-size: 0.9rem; }
 
         /* ── Pipeline section ── */
-        .pipeline { margin-bottom: 50px; }
-        .pipeline-phases { display: flex; gap: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        .phase { flex: 1; padding: 28px 28px 24px; background: #fff; border: 1px solid #e2e8f0; }
-        .phase:first-child { border-right: none; border-radius: 12px 0 0 12px; border-top: 4px solid #3b82f6; }
-        .phase:last-child  { border-radius: 0 12px 12px 0; border-top: 4px solid #10b981; }
+        .pipeline { margin-bottom: 50px; display: flex; flex-direction: column; gap: 0; }
+        .pipeline-phases { display: flex; flex-direction: column; gap: 0; }
+        .phase { width: 100%; box-sizing: border-box; padding: 28px 28px 24px; background: #fff; border: 1px solid #e2e8f0; }
+        .phase:first-child { border-radius: 12px 12px 0 0; border-top: 4px solid #3b82f6; border-bottom: none; }
+        .phase:last-child  { border-radius: 0 0 12px 12px; border-top: 4px solid #10b981; }
         .phase-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; }
         .phase:first-child .phase-badge { background: #dbeafe; color: #1d4ed8; }
         .phase:last-child  .phase-badge { background: #d1fae5; color: #065f46; }
         .phase h2 { font-size: 1.1rem; color: #1e293b; margin: 0 0 6px; }
         .phase > p { font-size: 0.9rem; color: #475569; margin: 0 0 16px; }
-        .step-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+        .step-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
         .step-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.88rem; color: #334155; }
         .step-num { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; }
         .phase:first-child .step-num { background: #bfdbfe; color: #1e40af; }
@@ -37,12 +37,12 @@
         .step-detail { display: flex; flex-direction: column; gap: 2px; }
         .step-title { font-weight: 600; }
         .step-desc  { color: #64748b; font-size: 0.82rem; }
-        .code-snippet { background: #1e293b; color: #94a3b8; font-family: 'Consolas','Monaco',monospace; font-size: 0.78rem; line-height: 1.5; padding: 10px 14px; border-radius: 6px; margin-top: 8px; overflow-x: auto; white-space: pre; }
+        .code-snippet { background: #1e293b; color: #94a3b8; font-family: 'Consolas','Monaco',monospace; font-size: 0.78rem; line-height: 1.5; padding: 10px 14px; border-radius: 6px; margin-top: 8px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; }
         .code-snippet .kw  { color: #c084fc; }
         .code-snippet .st  { color: #86efac; }
         .code-snippet .fn  { color: #67e8f9; }
         .code-snippet .cm  { color: #475569; font-style: italic; }
-        .phase-divider { display: flex; align-items: center; justify-content: center; background: #f1f5f9; padding: 0 8px; font-size: 1.4rem; color: #94a3b8; }
+        .phase-divider { display: flex; align-items: center; justify-content: center; background: #f1f5f9; padding: 10px 0; font-size: 1.4rem; color: #94a3b8; }
     </style>
 </head>
 <body>
@@ -122,7 +122,7 @@ final_df.to_parquet(output_filename,
                     </ul>
                 </div>
 
-                <div class="phase-divider">→</div>
+                <div class="phase-divider">↓</div>
 
                 <!-- ── BƯỚC 2: PHÂN TÍCH ── -->
                 <div class="phase">
