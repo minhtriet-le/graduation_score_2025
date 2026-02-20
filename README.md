@@ -4,7 +4,7 @@ Trang báo cáo phân tích phân phối điểm thi tốt nghiệp THPT năm 20
 
 ## 🔗 Xem báo cáo
 
-👉 **[Xem trực tiếp tại GitHub Pages](https://trietle.github.io/graduation_score_2025)**
+👉 **[Xem trực tiếp tại GitHub Pages](https://minhtriet-le.github.io/graduation_score_2025/)**
 
 ## 📊 Nội dung
 
