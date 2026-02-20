@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# Raw data (có thể chứa dữ liệu nhạy cảm)
+raw_data/
+
+# Dữ liệu đã xử lý (file lớn)
+combined_data.parquet
+
+# Jupyter Notebook checkpoint
+.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo

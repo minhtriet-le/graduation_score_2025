@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo Kết quả Phân tích Điểm thi</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 40px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 50px; border-bottom: 2px solid #3b82f6; padding-bottom: 20px; }
+        h1 { color: #1d4ed8; margin: 0; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
+        .card { background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); border: 1px solid #e2e8f0; }
+        .card h2 { font-size: 1.25rem; color: #334155; margin-top: 0; border-left: 4px solid #3b82f6; padding-left: 12px; }
+    img { width: 100%; height: auto; border-radius: 8px; margin-top: 10px; display: block; max-width: 700px; max-height: 500px; }
+        .card .comment-body { min-height: 120px; padding: 12px; border: 1px dashed #464646; border-radius: 8px; margin-top: 10px; font-size: 0.95rem; color: #44403c; line-height: 1.6; background: #ffffff; outline: none; white-space: pre-wrap; }
+        .card .comment-body:empty:before { content: attr(data-placeholder)}
+        .footer { text-align: center; margin-top: 60px; color: #64748b; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BÁO CÁO PHÂN TÍCH ĐIỂM THI</h1>
+            <p>Dữ liệu tổng hợp từ file .ipynb</p>
+        </header>
+        <div class="grid">
+
+            <div class="card">
+                <h2>Môn Toán</h2>
+                <img src="charts/toan.png" alt="Môn Toán">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Môn Toán</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về môn Toán tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Môn Ngữ văn</h2>
+                <img src="charts/van.png" alt="Môn Ngữ văn">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Môn Ngữ văn</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về môn Ngữ văn tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Môn Vật lí</h2>
+                <img src="charts/li.png" alt="Môn Vật lí">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Môn Vật lí</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về môn Vật lí tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Môn Hóa học</h2>
+                <img src="charts/hoa.png" alt="Môn Hóa học">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Môn Hóa học</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về môn Hóa học tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Môn Sinh học</h2>
+                <img src="charts/sinh.png" alt="Môn Sinh học">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Môn Sinh học</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về môn Sinh học tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Môn Tin học</h2>
+                <img src="charts/tin_hoc.png" alt="Môn Tin học">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Môn Tin học</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về môn Tin học tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Môn Công nghệ Công nghiệp</h2>
+                <img src="charts/cong_nghe_cong_nghiep.png" alt="Môn Công nghệ Công nghiệp">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Môn Công nghệ Công nghiệp</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về môn Công nghệ Công nghiệp tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Môn Công nghệ Nông nghiệp</h2>
+                <img src="charts/cong_nghe_nong_nghiep.png" alt="Môn Công nghệ Nông nghiệp">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Môn Công nghệ Nông nghiệp</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về môn Công nghệ Nông nghiệp tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Môn Lịch sử</h2>
+                <img src="charts/su.png" alt="Môn Lịch sử">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Môn Lịch sử</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về môn Lịch sử tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Môn Địa lí</h2>
+                <img src="charts/dia.png" alt="Môn Địa lí">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Môn Địa lí</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về môn Địa lí tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Môn Giáo dục Kinh tế và Pháp luật</h2>
+                <img src="charts/giao_duc_kinh_te_va_phap_luat.png" alt="Môn Giáo dục Kinh tế và Pháp luật">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Môn Giáo dục Kinh tế và Pháp luật</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về môn Giáo dục Kinh tế và Pháp luật tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Môn Giáo dục Công dân</h2>
+                <img src="charts/giao_duc_cong_dan.png" alt="Môn Giáo dục Công dân">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Môn Giáo dục Công dân</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về môn Giáo dục Công dân tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Ngoại ngữ - Tiếng Anh (N1)</h2>
+                <img src="charts/ngoai_ngu_N1.png" alt="Ngoại ngữ - Tiếng Anh (N1)">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Ngoại ngữ Tiếng Anh (N1)</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về Ngoại ngữ Tiếng Anh tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Ngoại ngữ - Tiếng Nga (N2)</h2>
+                <img src="charts/ngoai_ngu_N2.png" alt="Ngoại ngữ - Tiếng Nga (N2)">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Ngoại ngữ Tiếng Nga (N2)</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về Ngoại ngữ Tiếng Nga tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Ngoại ngữ - Tiếng Pháp (N3)</h2>
+                <img src="charts/ngoai_ngu_N3.png" alt="Ngoại ngữ - Tiếng Pháp (N3)">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Ngoại ngữ Tiếng Pháp (N3)</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về Ngoại ngữ Tiếng Pháp tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Ngoại ngữ - Tiếng Trung (N4)</h2>
+                <img src="charts/ngoai_ngu_N4.png" alt="Ngoại ngữ - Tiếng Trung (N4)">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Ngoại ngữ Tiếng Trung (N4)</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về Ngoại ngữ Tiếng Trung tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Ngoại ngữ - Tiếng Đức (N5)</h2>
+                <img src="charts/ngoai_ngu_N5.png" alt="Ngoại ngữ - Tiếng Đức (N5)">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Ngoại ngữ Tiếng Đức (N5)</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về Ngoại ngữ Tiếng Đức tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Ngoại ngữ - Tiếng Nhật (N6)</h2>
+                <img src="charts/ngoai_ngu_N6.png" alt="Ngoại ngữ - Tiếng Nhật (N6)">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Ngoại ngữ Tiếng Nhật (N6)</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về Ngoại ngữ Tiếng Nhật tại đây..."></div>
+            </div>
+
+            <div class="card">
+                <h2>Ngoại ngữ - Tiếng Hàn (N7)</h2>
+                <img src="charts/ngoai_ngu_N7.png" alt="Ngoại ngữ - Tiếng Hàn (N7)">
+            </div>
+
+            <div class="card">
+                <h2>💬 Nhận xét – Ngoại ngữ Tiếng Hàn (N7)</h2>
+                <div class="comment-body" contenteditable="true" data-placeholder="Nhập nhận xét về Ngoại ngữ Tiếng Hàn tại đây..."></div>
+            </div>
+    
+        </div>
+        <div class="footer">Báo cáo được tạo tự động | Source: process.ipynb</div>
+    </div>
+</body>
+</html>
