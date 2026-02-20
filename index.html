@@ -13,10 +13,36 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
         .card { background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); border: 1px solid #e2e8f0; }
         .card h2 { font-size: 1.25rem; color: #334155; margin-top: 0; border-left: 4px solid #3b82f6; padding-left: 12px; }
-    img { width: 100%; height: auto; border-radius: 8px; margin-top: 10px; display: block; max-width: 700px; max-height: 500px; }
+        img { width: 100%; height: auto; border-radius: 8px; margin-top: 10px; display: block; max-width: 700px; max-height: 500px; }
         .card .comment-body { min-height: 120px; padding: 12px; border: 1px dashed #464646; border-radius: 8px; margin-top: 10px; font-size: 0.95rem; color: #44403c; line-height: 1.6; background: #ffffff; outline: none; white-space: pre-wrap; }
         .card .comment-body:empty:before { content: attr(data-placeholder)}
         .footer { text-align: center; margin-top: 60px; color: #64748b; font-size: 0.9rem; }
+
+        /* ── Pipeline section ── */
+        .pipeline { margin-bottom: 50px; }
+        .pipeline-phases { display: flex; gap: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .phase { flex: 1; padding: 28px 28px 24px; background: #fff; border: 1px solid #e2e8f0; }
+        .phase:first-child { border-right: none; border-radius: 12px 0 0 12px; border-top: 4px solid #3b82f6; }
+        .phase:last-child  { border-radius: 0 12px 12px 0; border-top: 4px solid #10b981; }
+        .phase-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; }
+        .phase:first-child .phase-badge { background: #dbeafe; color: #1d4ed8; }
+        .phase:last-child  .phase-badge { background: #d1fae5; color: #065f46; }
+        .phase h2 { font-size: 1.1rem; color: #1e293b; margin: 0 0 6px; }
+        .phase > p { font-size: 0.9rem; color: #475569; margin: 0 0 16px; }
+        .step-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+        .step-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.88rem; color: #334155; }
+        .step-num { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; }
+        .phase:first-child .step-num { background: #bfdbfe; color: #1e40af; }
+        .phase:last-child  .step-num { background: #a7f3d0; color: #065f46; }
+        .step-detail { display: flex; flex-direction: column; gap: 2px; }
+        .step-title { font-weight: 600; }
+        .step-desc  { color: #64748b; font-size: 0.82rem; }
+        .code-snippet { background: #1e293b; color: #94a3b8; font-family: 'Consolas','Monaco',monospace; font-size: 0.78rem; line-height: 1.5; padding: 10px 14px; border-radius: 6px; margin-top: 8px; overflow-x: auto; white-space: pre; }
+        .code-snippet .kw  { color: #c084fc; }
+        .code-snippet .st  { color: #86efac; }
+        .code-snippet .fn  { color: #67e8f9; }
+        .code-snippet .cm  { color: #475569; font-style: italic; }
+        .phase-divider { display: flex; align-items: center; justify-content: center; background: #f1f5f9; padding: 0 8px; font-size: 1.4rem; color: #94a3b8; }
     </style>
 </head>
 <body>
@@ -25,6 +51,128 @@
             <h1>BÁO CÁO PHÂN TÍCH ĐIỂM THI</h1>
             <p>Dữ liệu tổng hợp từ file .ipynb</p>
         </header>
+        <!-- ══════════════════════════════════════════
+             PIPELINE: Bước 1 – Transform  |  Bước 2 – Phân tích
+             ══════════════════════════════════════════ -->
+        <section class="pipeline">
+            <div class="pipeline-phases">
+
+                <!-- ── BƯỚC 1: TRANSFORM ── -->
+                <div class="phase">
+                    <span class="phase-badge">Bước 1</span>
+                    <h2>🔄 Transform – ETL Pipeline</h2>
+                    <p>Chuyển đổi dữ liệu thô từ nhiều file Excel thành định dạng Parquet tối ưu.</p>
+                    <ul class="step-list">
+                        <li>
+                            <span class="step-num">1</span>
+                            <div class="step-detail">
+                                <span class="step-title">Đọc dữ liệu (Multi-Sheet Scanning)</span>
+                                <span class="step-desc">Duyệt tất cả file <code>.xlsx</code>, đọc từng sheet và gắn metadata nguồn gốc.</span>
+                                <div class="code-snippet"><span class="kw">for</span> file_path <span class="kw">in</span> data_dir.glob(<span class="st">"*.xlsx"</span>):
+    excel_data = pd.read_excel(file_path, sheet_name=<span class="kw">None</span>)
+    <span class="kw">for</span> sheet_name, df <span class="kw">in</span> excel_data.items():
+        df[<span class="st">'origin_file'</span>] = file_path.name
+        df[<span class="st">'origin_sheet'</span>] = <span class="fn">str</span>(sheet_name)
+        all_dfs.append(df)</div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">2</span>
+                            <div class="step-detail">
+                                <span class="step-title">Chuẩn hoá tên cột</span>
+                                <span class="step-desc">Xoá dấu, viết thường, thay khoảng trắng bằng dấu gạch dưới.</span>
+                                <div class="code-snippet">final_df.columns = [
+    unidecode(col).lower().replace(<span class="st">' '</span>, <span class="st">'_'</span>)
+    <span class="kw">for</span> col <span class="kw">in</span> final_df.columns
+]  <span class="cm"># "Điểm Toán" → "diem_toan"</span></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">3</span>
+                            <div class="step-detail">
+                                <span class="step-title">Làm sạch mã số báo danh (SBD)</span>
+                                <span class="step-desc">Loại dòng thiếu SBD, chuẩn hoá 8 chữ số.</span>
+                                <div class="code-snippet">final_df = final_df[final_df[<span class="st">'sobaodanh'</span>].notna()]
+final_df[<span class="st">'sobaodanh'</span>] = (final_df[<span class="st">'sobaodanh'</span>]
+    .astype(<span class="fn">int</span>).astype(<span class="fn">str</span>).str.zfill(<span class="st">8</span>))
+<span class="cm"># 12345 → "00012345"</span></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">4</span>
+                            <div class="step-detail">
+                                <span class="step-title">Tối ưu kiểu dữ liệu</span>
+                                <span class="step-desc">Chuyển điểm sang <code>float32</code>, giá trị lỗi (ABS…) thành <code>NaN</code>.</span>
+                                <div class="code-snippet"><span class="kw">for</span> col <span class="kw">in</span> score_cols:
+    final_df[col] = pd.to_numeric(
+        final_df[col], errors=<span class="st">'coerce'</span>
+    ).astype(<span class="st">'float32'</span>)</div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">5</span>
+                            <div class="step-detail">
+                                <span class="step-title">Xuất Parquet</span>
+                                <span class="step-desc">Sắp xếp theo SBD, lưu bằng engine PyArrow – nhanh và nén tốt.</span>
+                                <div class="code-snippet">final_df = final_df.sort_values(<span class="st">'sobaodanh'</span>)
+final_df.to_parquet(output_filename,
+    engine=<span class="st">'pyarrow'</span>, index=<span class="kw">False</span>)</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="phase-divider">→</div>
+
+                <!-- ── BƯỚC 2: PHÂN TÍCH ── -->
+                <div class="phase">
+                    <span class="phase-badge">Bước 2</span>
+                    <h2>📊 Phân tích – Visualization</h2>
+                    <p>Đọc dữ liệu Parquet đã chuẩn hoá, vẽ biểu đồ phân phối điểm từng môn và so sánh hai kỳ thi.</p>
+                    <ul class="step-list">
+                        <li>
+                            <span class="step-num">1</span>
+                            <div class="step-detail">
+                                <span class="step-title">Đọc Parquet</span>
+                                <span class="step-desc">Load toàn bộ dữ liệu đã sạch vào DataFrame.</span>
+                                <div class="code-snippet">df = pd.read_parquet(<span class="st">"combined_data.parquet"</span>)</div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">2</span>
+                            <div class="step-detail">
+                                <span class="step-title">Thống kê mô tả</span>
+                                <span class="step-desc">Tính mean, median, std, min/max từng môn theo từng kỳ thi.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">3</span>
+                            <div class="step-detail">
+                                <span class="step-title">Vẽ biểu đồ phân phối</span>
+                                <span class="step-desc">Histogram + KDE, so sánh kỳ CT2006 và CT2018 trên cùng biểu đồ.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">4</span>
+                            <div class="step-detail">
+                                <span class="step-title">Xuất ảnh PNG</span>
+                                <span class="step-desc">Lưu từng biểu đồ vào thư mục <code>charts/</code> để hiển thị bên dưới.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">5</span>
+                            <div class="step-detail">
+                                <span class="step-title">Nhận xét & báo cáo</span>
+                                <span class="step-desc">Điền nhận xét trực tiếp vào từng ô bên dưới cho từng môn học.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div><!-- /.pipeline-phases -->
+        </section>
+        <!-- ══════════════════════════════════════════ -->
+
         <div class="grid">
 
             <div class="card">
