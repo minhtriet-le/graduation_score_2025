@@ -3,6 +3,7 @@
 
 # Raw data (có thể chứa dữ liệu nhạy cảm)
 raw_data/
+old_html/
 
 # Dữ liệu đã xử lý (file lớn)
 combined_data.parquet
