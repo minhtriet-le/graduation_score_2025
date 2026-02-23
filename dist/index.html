@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phân tích Điểm thi Tốt nghiệp THPT 2025</title>
+  <meta name="description" content="Báo cáo phân tích chuyên sâu kết quả kỳ thi tốt nghiệp THPT 2025 – thống kê, phân cụm K-Means, kiểm định giả thuyết.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/charts.css">
+  <link rel="stylesheet" href="css/nav.css">
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════
+     READ PROGRESS BAR
+     ════════════════════════════════════════════════════════════ -->
+<div id="read-progress"></div>
+
+<!-- ════════════════════════════════════════════════════════════
+     TOP NAVBAR
+     ════════════════════════════════════════════════════════════ -->
+<nav id="top-navbar">
+  <button id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <a id="nav-logo" href="#">
+    <div class="logo-icon">📊</div>
+    <div>
+      <div class="logo-text">Score Analysis</div>
+      <div class="logo-sub">THPT 2025</div>
+    </div>
+  </a>
+
+  <nav id="nav-menu">
+    <a href="#sec-overview" class="active">Tổng quan</a>
+    <a href="#sec-pipeline">ETL Pipeline</a>
+    <a href="#sec-theory">Lý thuyết</a>
+    <a href="#sec-subjects">Môn thi</a>
+    <a href="#sec-foreign">Ngoại ngữ</a>
+    <a href="#sec-cluster">Phân cụm</a>
+    <a href="#sec-hypothesis">Kiểm định</a>
+  </nav>
+
+  <span class="nav-spacer"></span>
+  <span id="nav-badge">Kỳ thi THPT 2025</span>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════════
+     SIDEBAR OVERLAY (mobile)
+     ════════════════════════════════════════════════════════════ -->
+<div id="sidebar-overlay"></div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE WRAPPER
+     ════════════════════════════════════════════════════════════ -->
+<div id="page-wrapper">
+
+  <!-- ── LEFT SIDEBAR ── -->
+  <aside id="sidebar">
+    <div id="sidebar-title">📋 Nội dung</div>
+
+    <!-- Search -->
+    <div id="sidebar-search-wrap">
+      <input id="sidebar-search" type="search" placeholder="🔍  Tìm kiếm mục..." autocomplete="off">
+    </div>
+
+    <!-- Group: Tổng quan -->
+    <div class="sidebar-group open">
+      <div class="sidebar-group-label">
+        <span class="sg-icon">🏠</span> Tổng quan
+        <span class="sg-caret">▶</span>
+      </div>
+      <div class="sidebar-group-items">
+        <a class="sidebar-link" href="#sec-overview" data-target="sec-overview">
+          <span class="sl-dot"></span> Giới thiệu
+        </a>
+        <a class="sidebar-link" href="#sec-pipeline" data-target="sec-pipeline">
+          <span class="sl-dot"></span> ETL Pipeline
+        </a>
+        <a class="sidebar-link" href="#sec-theory" data-target="sec-theory">
+          <span class="sl-dot"></span> Cơ sở lý thuyết
+        </a>
+      </div>
+    </div>
+
+    <!-- Group: Phân tích môn thi -->
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">
+        <span class="sg-icon">📚</span> Môn thi
+        <span class="sg-caret">▶</span>
+      </div>
+      <div class="sidebar-group-items">
+        <a class="sidebar-link" href="#sec-subjects" data-target="sec-subjects">
+          <span class="sl-dot"></span> Phân bố điểm
+        </a>
+        <a class="sidebar-link" href="#sec-toan" data-target="sec-toan">
+          <span class="sl-dot"></span> Toán
+        </a>
+        <a class="sidebar-link" href="#sec-van" data-target="sec-van">
+          <span class="sl-dot"></span> Ngữ văn
+        </a>
+        <a class="sidebar-link" href="#sec-li" data-target="sec-li">
+          <span class="sl-dot"></span> Vật lí
+        </a>
+        <a class="sidebar-link" href="#sec-hoa" data-target="sec-hoa">
+          <span class="sl-dot"></span> Hóa học
+        </a>
+        <a class="sidebar-link" href="#sec-sinh" data-target="sec-sinh">
+          <span class="sl-dot"></span> Sinh học
+        </a>
+        <a class="sidebar-link" href="#sec-others" data-target="sec-others">
+          <span class="sl-dot"></span> Các môn khác
+        </a>
+      </div>
+    </div>
+
+    <!-- Group: Ngoại ngữ -->
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">
+        <span class="sg-icon">🌐</span> Ngoại ngữ
+        <span class="sg-caret">▶</span>
+      </div>
+      <div class="sidebar-group-items">
+        <a class="sidebar-link" href="#sec-foreign" data-target="sec-foreign">
+          <span class="sl-dot"></span> Tổng quan
+        </a>
+        <a class="sidebar-link" href="#sec-foreign-dist" data-target="sec-foreign-dist">
+          <span class="sl-dot"></span> Phân bố theo ngôn ngữ
+        </a>
+      </div>
+    </div>
+
+    <!-- Group: Phân cụm -->
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">
+        <span class="sg-icon">🗂️</span> Phân cụm K-Means
+        <span class="sg-caret">▶</span>
+      </div>
+      <div class="sidebar-group-items">
+        <a class="sidebar-link" href="#sec-cluster" data-target="sec-cluster">
+          <span class="sl-dot"></span> Theo tỉnh – Toán
+        </a>
+        <a class="sidebar-link" href="#sec-cluster-moi" data-target="sec-cluster-moi">
+          <span class="sl-dot"></span> Sau sáp nhập tỉnh
+        </a>
+        <a class="sidebar-link" href="#sec-cluster-natural" data-target="sec-cluster-natural">
+          <span class="sl-dot"></span> Khối Tự Nhiên
+        </a>
+        <a class="sidebar-link" href="#sec-cluster-social" data-target="sec-cluster-social">
+          <span class="sl-dot"></span> Khối Xã Hội
+        </a>
+        <a class="sidebar-link" href="#sec-cluster-subjects" data-target="sec-cluster-subjects">
+          <span class="sl-dot"></span> Các môn đơn lẻ
+        </a>
+      </div>
+    </div>
+
+    <!-- Group: Kiểm định -->
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">
+        <span class="sg-icon">🔬</span> Kiểm định
+        <span class="sg-caret">▶</span>
+      </div>
+      <div class="sidebar-group-items">
+        <a class="sidebar-link" href="#sec-hypothesis" data-target="sec-hypothesis">
+          <span class="sl-dot"></span> Hypothesis Testing
+        </a>
+        <a class="sidebar-link" href="#sec-corr" data-target="sec-corr">
+          <span class="sl-dot"></span> Tương quan
+        </a>
+      </div>
+    </div>
+
+  </aside>
+  <!-- /sidebar -->
+
+  <!-- ── MAIN CONTENT ── -->
+  <main id="main-content">
+
+    <!-- Breadcrumb -->
+    <div id="breadcrumb">
+      <a href="#">Trang chủ</a>
+      <span class="bc-sep">/</span>
+      <span class="bc-current">Phân tích Điểm thi THPT 2025</span>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION: TỔNG QUAN
+         ══════════════════════════════════════════════════════ -->
+    <a class="section-anchor" id="sec-overview"></a>
+    <section class="section">
+
+      <div class="page-hero">
+        <span class="hero-badge">Báo cáo Phân tích · 2025</span>
+        <h1>Phân Tích Toàn Diện<br>Kết Quả Kỳ Thi Tốt Nghiệp THPT 2025</h1>
+        <p>Phân tích dữ liệu điểm thi từ <strong>2 kỳ thi</strong> với hơn <strong>360.000 thí sinh</strong>. Áp dụng các phương pháp: thống kê mô tả, phân cụm K-Means, kiểm định giả thuyết, và phân tích tương quan môn học.</p>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon blue">👥</div>
+          <div class="stat-body">
+            <div class="stat-value" data-count="363,000" data-suffix="+">363,000+</div>
+            <div class="stat-label">Tổng số thí sinh</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">📖</div>
+          <div class="stat-body">
+            <div class="stat-value" data-count="13">13</div>
+            <div class="stat-label">Môn thi được phân tích</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber">🗺️</div>
+          <div class="stat-body">
+            <div class="stat-value" data-count="63">63</div>
+            <div class="stat-label">Tỉnh / Thành phố</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">🔬</div>
+          <div class="stat-body">
+            <div class="stat-value" data-count="4">4</div>
+            <div class="stat-label">Phương pháp phân tích</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">🌐</div>
+          <div class="stat-body">
+            <div class="stat-value" data-count="7">7</div>
+            <div class="stat-label">Môn ngoại ngữ</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Correlation heatmap overview -->
+      <div class="chart-card" style="margin-top:8px;">
+        <div class="chart-card-header">
+          <span class="chart-card-title">🔥 Ma trận tương quan điểm các môn thi</span>
+          <span class="chart-card-tag">Heatmap</span>
+        </div>
+        <div class="chart-card-body">
+          <img src="../charts/corr_heatmap.png" alt="Heatmap tương quan điểm">
+          <div class="comment-box editable" contenteditable="true" data-key="corr_heatmap"
+               data-placeholder="Ma trận tương quan cho thấy mối quan hệ giữa các môn học. Toán – Lý – Hóa có tương quan dương mạnh (nhóm tự nhiên), trong khi Văn – Sử – Địa tạo cụm riêng (nhóm xã hội). Ngoại ngữ có tương quan vừa phải với hầu hết các môn...">
+          </div>
+        </div>
+      </div>
+
+      <!-- Number of subjects bar chart -->
+      <div class="chart-card" style="margin-top:20px;">
+        <div class="chart-card-header">
+          <span class="chart-card-title">📊 Phân bố số môn thi của mỗi thí sinh</span>
+          <span class="chart-card-tag">Bar Chart</span>
+        </div>
+        <div class="chart-card-body">
+          <img src="../charts/num_subjects_bar.png" alt="Phân bố số môn thi">
+          <div class="comment-box editable" contenteditable="true" data-key="num_subjects"
+               data-placeholder="Biểu đồ thể hiện số lượng môn thi mà mỗi thí sinh đăng ký. Đại đa số thí sinh thi 5–6 môn theo hai tổ hợp phổ biến (tự nhiên hoặc xã hội + ngoại ngữ). Chỉ một nhóm nhỏ thi dưới 4 môn hoặc trên 7 môn...">
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION: ETL PIPELINE
+         ══════════════════════════════════════════════════════ -->
+    <a class="section-anchor" id="sec-pipeline"></a>
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">🔄</div>
+        <div>
+          <div class="section-title">ETL Pipeline</div>
+          <div class="section-subtitle">Quy trình xử lý dữ liệu thô từ Excel → Parquet</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="panel-badge blue">Bước 1 – Transform</span>
+        <div class="panel-title">🔄 Ingest & Normalize</div>
+        <p class="panel-lead">Chuyển đổi dữ liệu thô từ nhiều file <code>.xlsx</code> thành định dạng Parquet tối ưu, sẵn sàng cho phân tích.</p>
+
+        <div class="pipeline-wrap">
+
+          <div class="pipeline-step">
+            <div class="step-circle"><div class="step-num">1</div></div>
+            <div class="step-body">
+              <div class="step-title">Đọc dữ liệu – Multi-Sheet Scanning</div>
+              <div class="step-desc">Duyệt tất cả file <code>.xlsx</code>, đọc từng sheet và gắn metadata nguồn gốc (<code>origin_file</code>, <code>origin_sheet</code>).</div>
+              <div class="code-block"><span class="kw">for</span> file_path <span class="kw">in</span> data_dir.glob(<span class="st">"*.xlsx"</span>):
+    excel_data = pd.read_excel(file_path, sheet_name=<span class="kw">None</span>)
+    <span class="kw">for</span> sheet_name, df <span class="kw">in</span> excel_data.items():
+        df[<span class="st">'origin_file'</span>] = file_path.name
+        df[<span class="st">'origin_sheet'</span>] = <span class="fn">str</span>(sheet_name)
+        all_dfs.append(df)</div>
+            </div>
+          </div>
+
+          <div class="pipeline-step">
+            <div class="step-circle"><div class="step-num">2</div></div>
+            <div class="step-body">
+              <div class="step-title">Chuẩn hoá tên cột</div>
+              <div class="step-desc">Xoá dấu, viết thường, thay khoảng trắng bằng dấu gạch dưới. Ví dụ: <em>"Tin học" → "tin_hoc"</em></div>
+              <div class="code-block">final_df.columns = [
+    unidecode(col).lower().replace(<span class="st">' '</span>, <span class="st">'_'</span>)
+    <span class="kw">for</span> col <span class="kw">in</span> final_df.columns
+]  <span class="cm"># "Tin học" → "tin_hoc"</span></div>
+            </div>
+          </div>
+
+          <div class="pipeline-step">
+            <div class="step-circle"><div class="step-num">3</div></div>
+            <div class="step-body">
+              <div class="step-title">Làm sạch mã số báo danh (SBD)</div>
+              <div class="step-desc">Loại dòng thiếu SBD, chuẩn hoá về 8 chữ số bằng zero-padding.</div>
+              <div class="code-block">final_df = final_df[final_df[<span class="st">'sobaodanh'</span>].notna()]
+final_df[<span class="st">'sobaodanh'</span>] = (
+    final_df[<span class="st">'sobaodanh'</span>]
+    .astype(<span class="fn">int</span>).astype(<span class="fn">str</span>).str.zfill(<span class="num">8</span>)
+)  <span class="cm"># 12345 → "00012345"</span></div>
+            </div>
+          </div>
+
+          <div class="pipeline-step">
+            <div class="step-circle"><div class="step-num">4</div></div>
+            <div class="step-body">
+              <div class="step-title">Tối ưu kiểu dữ liệu</div>
+              <div class="step-desc">Chuyển điểm sang <code>float32</code> để tiết kiệm bộ nhớ; giá trị lỗi (ABS, bỏ thi…) thành <code>NaN</code>.</div>
+              <div class="code-block"><span class="kw">for</span> col <span class="kw">in</span> score_cols:
+    final_df[col] = pd.to_numeric(
+        final_df[col], errors=<span class="st">'coerce'</span>
+    ).astype(<span class="st">'float32'</span>)</div>
+            </div>
+          </div>
+
+          <div class="pipeline-step">
+            <div class="step-circle"><div class="step-num">5</div></div>
+            <div class="step-body">
+              <div class="step-title">Gắn mã tỉnh & sáp nhập tỉnh mới</div>
+              <div class="step-desc">Trích 2 ký tự đầu SBD làm mã tỉnh (<code>ma_tinh</code>), map sang tên tỉnh gốc và tỉnh mới sau sáp nhập 2025.</div>
+            </div>
+          </div>
+
+          <div class="pipeline-step">
+            <div class="step-circle"><div class="step-num">6</div></div>
+            <div class="step-body">
+              <div class="step-title">Xuất Parquet</div>
+              <div class="step-desc">Sắp xếp theo SBD, lưu bằng engine PyArrow – nhanh, nén tốt, hỗ trợ kiểu dữ liệu phức tạp.</div>
+              <div class="code-block">final_df = final_df.sort_values(<span class="st">'sobaodanh'</span>)
+final_df.to_parquet(output_filename,
+    engine=<span class="st">'pyarrow'</span>, index=<span class="kw">False</span>)</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="panel-badge green">Bước 2 – Phân tích</span>
+        <div class="panel-title">📊 Visualization Pipeline</div>
+        <p class="panel-lead">Đọc file Parquet đã chuẩn hoá, thực hiện thống kê mô tả và trực quan hoá phân phối điểm từng môn.</p>
+
+        <div class="tab-bar" data-target="tab-group-analysis">
+          <button class="tab-btn" data-pane="tab-stats">Thống kê mô tả</button>
+          <button class="tab-btn" data-pane="tab-charts">Biểu đồ phân phối</button>
+          <button class="tab-btn" data-pane="tab-cluster">Phân cụm</button>
+          <button class="tab-btn" data-pane="tab-test">Kiểm định</button>
+        </div>
+
+        <div id="tab-group-analysis">
+          <div class="tab-pane" id="tab-stats">
+            <p>Tính mean, median, std, skewness, kurtosis theo từng môn thi trên toàn quốc. Đánh giá theo <em>ngưỡng vàng</em> IRT: mean ≈ 5.0 – 5.5, SD = 1.6 – 2.0.</p>
+          </div>
+          <div class="tab-pane" id="tab-charts">
+            <p>Vẽ histogram phân phối điểm (bin width = 0.5 điểm), annotate thống kê trực tiếp trên biểu đồ. Xuất PNG 120 DPI vào thư mục <code>charts/</code>.</p>
+          </div>
+          <div class="tab-pane" id="tab-cluster">
+            <p>K-Means clustering với StandardScaler, chọn K tối ưu qua Elbow Method + Silhouette Score. Áp dụng cho từng môn đơn, khối Tự Nhiên (Toán+Lý+Hóa), khối Xã Hội (Văn+Sử+Địa) và theo tỉnh sau sáp nhập.</p>
+          </div>
+          <div class="tab-pane" id="tab-test">
+            <p>Kiểm định Levene → Welch's t-test (hai phía, α = 0.05). Tính Cohen's d (effect size) và Mann-Whitney U test (phi tham số). Case study: Quảng Nam vs Đà Nẵng.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION: CƠ SỞ LÝ THUYẾT
+         ══════════════════════════════════════════════════════ -->
+    <a class="section-anchor" id="sec-theory"></a>
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">📚</div>
+        <div>
+          <div class="section-title">Cơ sở Lý thuyết</div>
+          <div class="section-subtitle">Đo lường giáo dục & Phân tích phân phối điểm</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="panel-badge yellow">Lý thuyết đo lường</span>
+        <div class="panel-title">📚 Phân Tích Phân Phối Điểm Số Dưới Góc Độ Đo Lường Giáo Dục</div>
+        <p class="panel-lead">Sử dụng nền tảng từ <strong>Lý thuyết Đo lường Giáo dục (Educational Measurement)</strong> để đánh giá tính hiệu lực và độ tin cậy của đề thi.</p>
+
+        <h4>1. Lý thuyết Ứng đáp Câu hỏi (Item Response Theory – IRT)</h4>
+        <div class="highlight-box">
+          <p>Mô hình <strong>3 tham số (3PL)</strong> đảm bảo đề thi phản ánh đúng năng lực thí sinh:</p>
+          <ul>
+            <li><strong>Độ khó (Difficulty – <em>b</em>):</strong> Hàm thông tin tối ưu khi <em>b</em> hội tụ quanh 0 (≈ 5.0 điểm). <em>b &gt; 0</em> → phổ điểm lệch trái nhẹ, đề thi có thách thức cao.</li>
+            <li><strong>Độ phân biệt (Discrimination – <em>a</em>):</strong> <em>a</em> cao → SD rộng, phân loại rõ tầng năng lực.</li>
+            <li><strong>Đoán mò (Guessing – <em>c</em>):</strong> Với trắc nghiệm 4 lựa chọn, <em>c</em> = 25%. Thiết kế đề để mean ≈ 4.5 – 5.5 triệt tiêu nhiễu may mắn.</li>
+          </ul>
+        </div>
+
+        <h4>2. Quy tắc Phân phối Chuẩn & Độ phân tán</h4>
+        <div class="highlight-box">
+          <p>Đề thi lý tưởng cho quần thể &gt; 1 triệu thí sinh cần thỏa mãn:</p>
+          <ul>
+            <li><strong>Ngưỡng 68-95-99.7:</strong> 95% dữ liệu trong <span class="formula">[Mean − 2SD, Mean + 2SD]</span>.</li>
+            <li><strong>SD lý tưởng:</strong> Để phổ điểm bao phủ 1–9: <span class="formula">8/4 = 2.0</span> → <strong>SD = 1.5 – 2.0</strong>. Dưới 1.5 → phổ nhọn, trên 2.0 → sai số đo lường lớn.</li>
+          </ul>
+        </div>
+
+        <h4>3. Bảng Đối Chiếu Chỉ Số Lý Tưởng</h4>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Chỉ số thống kê</th>
+              <th>Ngưỡng lý tưởng</th>
+              <th>Mục tiêu đo lường</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Điểm trung bình (Mean)</td>
+              <td><span class="badge badge-blue">5.0 – 5.5</span></td>
+              <td>Tối ưu hóa hàm thông tin và tính đối xứng của phổ điểm.</td>
+            </tr>
+            <tr>
+              <td>Độ lệch chuẩn (SD)</td>
+              <td><span class="badge badge-blue">1.6 – 2.0</span></td>
+              <td>Tạo không gian phân hóa đủ rộng cho các tầng năng lực.</td>
+            </tr>
+            <tr>
+              <td>Hệ số lệch (Skewness)</td>
+              <td><span class="badge badge-green">Tiệm cận 0</span></td>
+              <td>Phản ánh sự tương thích giữa đề thi và năng lực thực tế.</td>
+            </tr>
+            <tr>
+              <td>Kurtosis</td>
+              <td><span class="badge badge-amber">Gần 3 (Mesokurtic)</span></td>
+              <td>Đảm bảo phân phối không quá nhọn hoặc quá dẹt.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4>4. Phân tích Hiện tượng Lệch phải (Positive Skewness)</h4>
+        <div class="highlight-box">
+          <ul>
+            <li><strong>Hiệu ứng sàn (Floor Effect):</strong> Đỉnh phổ ở 2.0 – 3.5 → đề quá khó, vượt ngưỡng nhận thức đại trà.</li>
+            <li><strong>Phân hóa cực đoan:</strong> Câu hỏi vận dụng tạo "vách đá" khiến nhóm trung bình không thể bứt phá.</li>
+          </ul>
+        </div>
+
+        <div class="callout">
+          Một đề thi lý tưởng không chỉ phân hóa thí sinh giỏi – xuất sắc, mà còn phải đảm bảo công nhận tốt nghiệp cho nhóm đại trà. Cân bằng giữa hai mục tiêu này là thách thức cốt lõi của thiết kế đề thi chuẩn hóa quốc gia.
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION: PHÂN BỐ ĐIỂM CÁC MÔN
+         ══════════════════════════════════════════════════════ -->
+    <a class="section-anchor" id="sec-subjects"></a>
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">📊</div>
+        <div>
+          <div class="section-title">Phân bố Điểm các Môn thi</div>
+          <div class="section-subtitle">Histogram phân phối điểm – bin width = 0.5 điểm</div>
+        </div>
+      </div>
+
+      <!-- ── TOÁN ── -->
+      <a class="section-anchor" id="sec-toan"></a>
+      <div class="chart-grid" style="margin-bottom:28px;" data-tags="">
+        <div class="chart-card" data-tags="Lệch phải:amber,SD lý tưởng:green">
+          <div class="chart-card-header">
+            <span class="chart-card-title">📐 Môn Toán</span>
+            <span class="chart-card-tag">Histogram</span>
+          </div>
+          <div class="chart-card-body">
+            <div class="chart-annotations"></div>
+            <img src="../charts/toan.png" alt="Phân bố điểm Toán">
+            <div class="comment-box editable" contenteditable="true" data-key="toan"
+                 data-placeholder="Phổ điểm môn Toán cho thấy đây là một đề thi có độ phân hóa tốt nhưng độ khó cao. Với ĐTB (4.80) và Trung vị (4.60) dưới mức lý tưởng, tạo phân phối lệch phải nhẹ. SD (1.69) nằm trong 'ngưỡng vàng' (1.5–2.0) – tham số phân biệt (a) hoạt động hiệu quả. Đỉnh phổ ở 4.0–5.0 giúp nhóm trung bình dễ đạt ngưỡng tốt nghiệp...">
+            </div>
+          </div>
+        </div>
+
+        <!-- ── VĂN ── -->
+        <a class="section-anchor" id="sec-van"></a>
+        <div class="chart-card" data-tags="Lệch trái:blue,SD thấp:amber">
+          <div class="chart-card-header">
+            <span class="chart-card-title">✍️ Môn Ngữ văn</span>
+            <span class="chart-card-tag">Histogram</span>
+          </div>
+          <div class="chart-card-body">
+            <div class="chart-annotations"></div>
+            <img src="../charts/van.png" alt="Phân bố điểm Ngữ văn">
+            <div class="comment-box editable" contenteditable="true" data-key="van"
+                 data-placeholder="Phổ điểm Ngữ văn có ĐTB (6.99) và Trung vị (7.25) cao hơn mức lý tưởng, tạo phân phối lệch trái rõ rệt. SD (1.29) dưới ngưỡng vàng → phổ 'nhọn', tập trung quá đông ở dải khá-giỏi. Hình dáng dốc đều về phía điểm cao và không có điểm 10 cho thấy chấm tự luận được kiểm soát chặt chẽ. Sự 'nén điểm' ở 7.0–8.5 đẩy áp lực phân hóa lên các môn khác trong tổ hợp...">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── VẬT LÍ & HÓA HỌC ── -->
+      <a class="section-anchor" id="sec-li"></a>
+      <div class="chart-grid" style="margin-bottom:28px;">
+        <div class="chart-card" data-tags="Lệch trái:blue,Điểm 10 cao:red">
+          <div class="chart-card-header">
+            <span class="chart-card-title">⚡ Môn Vật lí</span>
+            <span class="chart-card-tag">Histogram</span>
+          </div>
+          <div class="chart-card-body">
+            <div class="chart-annotations"></div>
+            <img src="../charts/li.png" alt="Phân bố điểm Vật lí">
+            <div class="comment-box editable" contenteditable="true" data-key="li"
+                 data-placeholder="Phổ điểm Vật lý có ĐTB (6.98) và Trung vị (7.00) lệch xa mức lý tưởng. SD (1.52) vừa chạm ngưỡng tối thiểu. Gần 4.000 điểm 10 cho thấy câu hỏi khó chưa đủ sức tách biệt nhóm giỏi và xuất sắc. Hình thái lệch trái, đỉnh dồn ở 7.5–8.0 cho thấy đề ưu tiên hỗ trợ tốt nghiệp hơn phân loại tinh hoa. Tắc nghẽn ở 9.5–10 gây khó khăn cho tuyển sinh top đầu...">
+            </div>
+          </div>
+        </div>
+
+        <a class="section-anchor" id="sec-hoa"></a>
+        <div class="chart-card" data-tags="Cân bằng:green">
+          <div class="chart-card-header">
+            <span class="chart-card-title">🧪 Môn Hóa học</span>
+            <span class="chart-card-tag">Histogram</span>
+          </div>
+          <div class="chart-card-body">
+            <div class="chart-annotations"></div>
+            <img src="../charts/hoa.png" alt="Phân bố điểm Hóa học">
+            <div class="comment-box editable" contenteditable="true" data-key="hoa"
+                 data-placeholder="Nhận xét phân bố điểm Hóa học...">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SINH HỌC ── -->
+      <a class="section-anchor" id="sec-sinh"></a>
+      <div class="chart-grid" style="margin-bottom:28px;">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <span class="chart-card-title">🌱 Môn Sinh học</span>
+            <span class="chart-card-tag">Histogram</span>
+          </div>
+          <div class="chart-card-body">
+            <img src="../charts/sinh.png" alt="Phân bố điểm Sinh học">
+            <div class="comment-box editable" contenteditable="true" data-key="sinh"
+                 data-placeholder="Nhận xét phân bố điểm Sinh học...">
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <span class="chart-card-title">💻 Môn Tin học</span>
+            <span class="chart-card-tag">Histogram</span>
+          </div>
+          <div class="chart-card-body">
+            <img src="../charts/tin_hoc.png" alt="Phân bố điểm Tin học">
+            <div class="comment-box editable" contenteditable="true" data-key="tin_hoc"
+                 data-placeholder="Nhận xét phân bố điểm Tin học...">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CÁC MÔN KHÁC ── -->
+      <a class="section-anchor" id="sec-others"></a>
+      <div class="tab-bar" data-target="tab-group-others">
+        <button class="tab-btn" data-pane="tab-su">Lịch sử</button>
+        <button class="tab-btn" data-pane="tab-dia">Địa lí</button>
+        <button class="tab-btn" data-pane="tab-gdcd">GDCD</button>
+        <button class="tab-btn" data-pane="tab-gdktpl">GD KT&PL</button>
+        <button class="tab-btn" data-pane="tab-cncn">CN Công nghiệp</button>
+        <button class="tab-btn" data-pane="tab-cnnn">CN Nông nghiệp</button>
+      </div>
+
+      <div id="tab-group-others">
+        <div class="tab-pane" id="tab-su">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">📜 Môn Lịch sử</span>
+              <span class="chart-card-tag">Histogram</span>
+            </div>
+            <div class="chart-card-body">
+              <img src="../charts/su.png" alt="Phân bố điểm Lịch sử">
+              <div class="comment-box editable" contenteditable="true" data-key="su"
+                   data-placeholder="Nhận xét phân bố điểm Lịch sử...">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="tab-dia">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">🗺️ Môn Địa lí</span>
+              <span class="chart-card-tag">Histogram</span>
+            </div>
+            <div class="chart-card-body">
+              <img src="../charts/dia.png" alt="Phân bố điểm Địa lí">
+              <div class="comment-box editable" contenteditable="true" data-key="dia"
+                   data-placeholder="Nhận xét phân bố điểm Địa lí...">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="tab-gdcd">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">⚖️ Môn Giáo dục Công dân</span>
+              <span class="chart-card-tag">Histogram</span>
+            </div>
+            <div class="chart-card-body">
+              <img src="../charts/giao_duc_cong_dan.png" alt="Phân bố điểm GDCD">
+              <div class="comment-box editable" contenteditable="true" data-key="gdcd"
+                   data-placeholder="Nhận xét phân bố điểm Giáo dục Công dân...">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="tab-gdktpl">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">📋 Môn Giáo dục KT &amp; Pháp luật</span>
+              <span class="chart-card-tag">Histogram</span>
+            </div>
+            <div class="chart-card-body">
+              <img src="../charts/giao_duc_kinh_te_va_phap_luat.png" alt="Phân bố điểm GD KT&PL">
+              <div class="comment-box editable" contenteditable="true" data-key="gdktpl"
+                   data-placeholder="Nhận xét phân bố điểm GD Kinh tế và Pháp luật...">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="tab-cncn">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">🏭 Môn Công nghệ Công nghiệp</span>
+              <span class="chart-card-tag">Histogram</span>
+            </div>
+            <div class="chart-card-body">
+              <img src="../charts/cong_nghe_cong_nghiep.png" alt="Phân bố điểm CN Công nghiệp">
+              <div class="comment-box editable" contenteditable="true" data-key="cncn"
+                   data-placeholder="Nhận xét phân bố điểm Công nghệ Công nghiệp...">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="tab-cnnn">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">🌾 Môn Công nghệ Nông nghiệp</span>
+              <span class="chart-card-tag">Histogram</span>
+            </div>
+            <div class="chart-card-body">
+              <img src="../charts/cong_nghe_nong_nghiep.png" alt="Phân bố điểm CN Nông nghiệp">
+              <div class="comment-box editable" contenteditable="true" data-key="cnnn"
+                   data-placeholder="Nhận xét phân bố điểm Công nghệ Nông nghiệp...">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION: NGOẠI NGỮ
+         ══════════════════════════════════════════════════════ -->
+    <a class="section-anchor" id="sec-foreign"></a>
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">🌐</div>
+        <div>
+          <div class="section-title">Phân tích Ngoại ngữ</div>
+          <div class="section-subtitle">Thực trạng lựa chọn môn Ngoại ngữ trong kỳ thi THPT</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="panel-badge blue">Phân tích chuyên sâu</span>
+        <div class="panel-title">🌐 Thực trạng Lựa chọn Ngoại ngữ</div>
+
+        <!-- Overview bar chart -->
+        <div class="panel-img-wrap">
+          <img src="../charts/ngoai_ngu_bar.png" alt="Biểu đồ tỷ lệ đăng ký thi ngoại ngữ">
+        </div>
+
+        <h4>1. Sự "lệch pha" giữa thi cử và năng lực thực tế</h4>
+        <div class="highlight-box">
+          <ul>
+            <li><strong>Hiệu ứng quy đổi chứng chỉ quốc tế:</strong> Thí sinh có IELTS, HSK, JLPT… thường miễn thi hoặc quy đổi điểm 10, không xuất hiện trong số liệu đăng ký truyền thống.</li>
+            <li><strong>Chiến thuật tối ưu hóa điểm:</strong> Tiếng Anh có tài liệu phong phú, tổ hợp xét tuyển đa dạng (A01, D01) → "an toàn" nhất.</li>
+            <li><strong>Tâm lý "Nền tảng và Mũi nhọn":</strong> Tiếng Anh là công cụ hội nhập cơ bản; ngoại ngữ khác được học muộn hơn như vũ khí chuyên biệt.</li>
+          </ul>
+          <div class="callout">
+            "Con số thấp trên biểu đồ không phản ánh sự yếu kém về đa dạng ngôn ngữ, mà cho thấy sự khắt khe của hệ thống xét tuyển đại học vẫn đang xoay quanh trục Tiếng Anh."
+          </div>
+        </div>
+
+        <h4>2. Kết luận & Khuyến nghị chính sách</h4>
+        <div class="callout">
+          Để thúc đẩy đa dạng hóa ngôn ngữ, cần điều chỉnh các tổ hợp xét tuyển và mở rộng đào tạo ngoại ngữ thay thế ngay từ bậc phổ thông, thay vì chỉ xem đó là kỹ năng bổ trợ sau Đại học.
+        </div>
+      </div>
+
+      <!-- ── Phân bố điểm theo từng ngôn ngữ ── -->
+      <a class="section-anchor" id="sec-foreign-dist"></a>
+      <div class="section-header" style="margin-top:32px;">
+        <div class="section-icon" style="background:#ede9fe;color:#4c1d95;">📈</div>
+        <div>
+          <div class="section-title">Phân bố Điểm theo Ngôn ngữ</div>
+          <div class="section-subtitle">Histogram riêng cho từng mã ngoại ngữ N1–N7</div>
+        </div>
+      </div>
+
+      <div class="tab-bar" data-target="tab-group-lang">
+        <button class="tab-btn" data-pane="tab-n1">Tiếng Anh (N1)</button>
+        <button class="tab-btn" data-pane="tab-n2">Tiếng Nga (N2)</button>
+        <button class="tab-btn" data-pane="tab-n3">Tiếng Pháp (N3)</button>
+        <button class="tab-btn" data-pane="tab-n4">Tiếng Trung (N4)</button>
+        <button class="tab-btn" data-pane="tab-n5">Tiếng Đức (N5)</button>
+        <button class="tab-btn" data-pane="tab-n6">Tiếng Nhật (N6)</button>
+        <button class="tab-btn" data-pane="tab-n7">Tiếng Hàn (N7)</button>
+      </div>
+
+      <div id="tab-group-lang">
+        <div class="tab-pane" id="tab-n1">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">🇬🇧 Tiếng Anh (N1)</span>
+              <span class="chart-card-tag">356,978 thí sinh</span>
+            </div>
+            <div class="chart-card-body">
+              <img src="../charts/ngoai_ngu_N1.png" alt="Phân bố điểm Tiếng Anh (N1)">
+              <div class="comment-box editable" contenteditable="true" data-key="ngoai_ngu_N1"
+                   data-placeholder="Nhận xét phân bố điểm Tiếng Anh...">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="tab-n2">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">🇷🇺 Tiếng Nga (N2)</span>
+              <span class="chart-card-tag">Số lượng thấp nhất</span>
+            </div>
+            <div class="chart-card-body">
+              <img src="../charts/ngoai_ngu_N2.png" alt="Phân bố điểm Tiếng Nga (N2)">
+              <div class="comment-box editable" contenteditable="true" data-key="ngoai_ngu_N2"
+                   data-placeholder="Nhận xét phân bố điểm Tiếng Nga...">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="tab-n3">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">🇫🇷 Tiếng Pháp (N3)</span>
+              <span class="chart-card-tag">Histogram</span>
+            </div>
+            <div class="chart-card-body">
+              <img src="../charts/ngoai_ngu_N3.png" alt="Phân bố điểm Tiếng Pháp (N3)">
+              <div class="comment-box editable" contenteditable="true" data-key="ngoai_ngu_N3"
+                   data-placeholder="Nhận xét phân bố điểm Tiếng Pháp...">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="tab-n4">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">🇨🇳 Tiếng Trung (N4)</span>
+              <span class="chart-card-tag">Histogram</span>
+            </div>
+            <div class="chart-card-body">
+              <img src="../charts/ngoai_ngu_N4.png" alt="Phân bố điểm Tiếng Trung (N4)">
+              <div class="comment-box editable" contenteditable="true" data-key="ngoai_ngu_N4"
+                   data-placeholder="Nhận xét phân bố điểm Tiếng Trung...">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="tab-n5">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">🇩🇪 Tiếng Đức (N5)</span>
+              <span class="chart-card-tag">Histogram</span>
+            </div>
+            <div class="chart-card-body">
+              <img src="../charts/ngoai_ngu_N5.png" alt="Phân bố điểm Tiếng Đức (N5)">
+              <div class="comment-box editable" contenteditable="true" data-key="ngoai_ngu_N5"
+                   data-placeholder="Nhận xét phân bố điểm Tiếng Đức...">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="tab-n6">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">🇯🇵 Tiếng Nhật (N6)</span>
+              <span class="chart-card-tag">Histogram</span>
+            </div>
+            <div class="chart-card-body">
+              <img src="../charts/ngoai_ngu_N6.png" alt="Phân bố điểm Tiếng Nhật (N6)">
+              <div class="comment-box editable" contenteditable="true" data-key="ngoai_ngu_N6"
+                   data-placeholder="Nhận xét phân bố điểm Tiếng Nhật...">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="tab-n7">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">🇰🇷 Tiếng Hàn (N7)</span>
+              <span class="chart-card-tag">Histogram</span>
+            </div>
+            <div class="chart-card-body">
+              <img src="../charts/ngoai_ngu_N7.png" alt="Phân bố điểm Tiếng Hàn (N7)">
+              <div class="comment-box editable" contenteditable="true" data-key="ngoai_ngu_N7"
+                   data-placeholder="Nhận xét phân bố điểm Tiếng Hàn...">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION: PHÂN CỤM K-MEANS
+         ══════════════════════════════════════════════════════ -->
+    <a class="section-anchor" id="sec-cluster"></a>
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">🗂️</div>
+        <div>
+          <div class="section-title">Phân cụm K-Means theo Tỉnh</div>
+          <div class="section-subtitle">Features: Điểm trung bình & Độ lệch chuẩn | StandardScaler | k = 4</div>
+        </div>
+      </div>
+
+      <!-- Theory note -->
+      <div class="panel" style="margin-bottom:24px;">
+        <span class="panel-badge purple">Phương pháp</span>
+        <div class="panel-title">Phương pháp Phân cụm K-Means</div>
+        <p class="panel-lead">Mỗi tỉnh được biểu diễn bởi 2 features (mean & std điểm) sau khi chuẩn hoá bằng StandardScaler. K tối ưu được chọn qua Elbow Method (Inertia) và Silhouette Score. Kết quả phân 63 tỉnh/thành vào 4 nhóm năng lực.</p>
+        <div class="cluster-grid">
+          <div class="cluster-card c1">
+            <div class="cc-title">🟢 Cụm 1 – Xuất sắc</div>
+            <div class="cc-provinces">ĐTB cao, độ phân tán hợp lý. Đây thường là các thành phố lớn, trung tâm giáo dục.</div>
+          </div>
+          <div class="cluster-card c2">
+            <div class="cc-title">🔵 Cụm 2 – Khá</div>
+            <div class="cc-provinces">ĐTB trên mức trung bình quốc gia. Có sự đầu tư nhất định vào giáo dục.</div>
+          </div>
+          <div class="cluster-card c3">
+            <div class="cc-title">🟡 Cụm 3 – Trung bình</div>
+            <div class="cc-provinces">ĐTB gần mức trung bình toàn quốc. Cần cải thiện chất lượng giảng dạy.</div>
+          </div>
+          <div class="cluster-card c4">
+            <div class="cc-title">🔴 Cụm 4 – Yếu</div>
+            <div class="cc-provinces">ĐTB thấp hơn mức trung bình. Thường là các tỉnh vùng sâu vùng xa, khó khăn.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- K optimal selection charts -->
+      <div class="chart-grid" style="margin-bottom:24px;">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <span class="chart-card-title">📈 Chọn K tối ưu – Điểm Toán (tỉnh gốc)</span>
+            <span class="chart-card-tag">Elbow + Silhouette</span>
+          </div>
+          <div class="chart-card-body">
+            <img src="../charts/kmeans_optimal_k.png" alt="Chọn K tối ưu - Toán tỉnh gốc">
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <span class="chart-card-title">🗺️ Phân cụm – Điểm Toán (k=4, tỉnh gốc)</span>
+            <span class="chart-card-tag">K-Means Scatter</span>
+          </div>
+          <div class="chart-card-body">
+            <img src="../charts/kmeans_k4_2d.png" alt="K-Means Toán k=4 tỉnh gốc">
+            <div class="comment-box editable" contenteditable="true" data-key="kmeans_toan_goc"
+                 data-placeholder="Nhận xét về phân cụm tỉnh theo điểm Toán (tỉnh gốc)...">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scatter plot for Toan - individual provinces -->
+      <div class="chart-card" style="margin-bottom:24px;">
+        <div class="chart-card-header">
+          <span class="chart-card-title">📊 Scatter Plot – Điểm Toán theo tỉnh</span>
+          <span class="chart-card-tag">Mean vs Std</span>
+        </div>
+        <div class="chart-card-body">
+          <img src="../charts/kmeans_toan_scatter.png" alt="Scatter Toán theo tỉnh">
+        </div>
+      </div>
+
+      <!-- SAU SÁP NHẬP -->
+      <a class="section-anchor" id="sec-cluster-moi"></a>
+      <div class="section-header" style="margin-top:32px;">
+        <div class="section-icon" style="background:#fef3c7;color:#92400e;">🆕</div>
+        <div>
+          <div class="section-title">Phân cụm sau Sáp nhập Tỉnh 2025</div>
+          <div class="section-subtitle">63 → 34 tỉnh/thành mới theo quy hoạch hành chính 2025</div>
+        </div>
+      </div>
+
+      <div class="chart-grid" style="margin-bottom:24px;">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <span class="chart-card-title">📈 Chọn K tối ưu – Tỉnh mới</span>
+            <span class="chart-card-tag">Elbow + Silhouette</span>
+          </div>
+          <div class="chart-card-body">
+            <img src="../charts/kmeans_moi_optimal_k.png" alt="Chọn K tối ưu tỉnh mới">
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <span class="chart-card-title">🗺️ Phân cụm – Tỉnh SAU SÁP NHẬP (k=4)</span>
+            <span class="chart-card-tag">K-Means Scatter</span>
+          </div>
+          <div class="chart-card-body">
+            <img src="../charts/kmeans_moi_k4_2d.png" alt="K-Means tỉnh mới k=4">
+            <div class="comment-box editable" contenteditable="true" data-key="kmeans_tinh_moi"
+                 data-placeholder="Sau khi sáp nhập tỉnh, bức tranh phân bố chất lượng giáo dục có sự thay đổi đáng kể. Các tỉnh được sáp nhập với nhau tạo ra các đơn vị hành chính mới với đặc điểm kinh tế-xã hội khác biệt...">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KHỐI TỰ NHIÊN -->
+      <a class="section-anchor" id="sec-cluster-natural"></a>
+      <div class="section-header" style="margin-top:32px;">
+        <div class="section-icon" style="background:#d1fae5;color:#065f46;">🔬</div>
+        <div>
+          <div class="section-title">Phân cụm – Khối Tự Nhiên</div>
+          <div class="section-subtitle">Features: mean & std của Toán + Lý + Hóa (6 features / tỉnh)</div>
+        </div>
+      </div>
+
+      <div class="chart-grid" style="margin-bottom:24px;">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <span class="chart-card-title">📈 Chọn K – Khối Tự Nhiên</span>
+            <span class="chart-card-tag">Elbow + Silhouette</span>
+          </div>
+          <div class="chart-card-body">
+            <img src="../charts/kmeans_natural_optimal_k.png" alt="K optimal khối tự nhiên">
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <span class="chart-card-title">🔬 Phân cụm – Khối Tự Nhiên (k=4)</span>
+            <span class="chart-card-tag">K-Means Scatter</span>
+          </div>
+          <div class="chart-card-body">
+            <img src="../charts/kmeans_natural_k4_2d.png" alt="K-Means khối tự nhiên k=4">
+            <div class="comment-box editable" contenteditable="true" data-key="kmeans_natural"
+                 data-placeholder="Phân cụm khối Tự Nhiên (Toán+Lý+Hóa) với 6 features giúp xác định chính xác hơn vùng địa lý có thế mạnh về khoa học tự nhiên. Trục X (ĐTB tổng hợp) và trục Y (Std TB) cho thấy sự phân tầng rõ ràng...">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KHỐI XÃ HỘI -->
+      <a class="section-anchor" id="sec-cluster-social"></a>
+      <div class="section-header" style="margin-top:32px;">
+        <div class="section-icon" style="background:#dbeafe;color:#1d4ed8;">📖</div>
+        <div>
+          <div class="section-title">Phân cụm – Khối Xã Hội</div>
+          <div class="section-subtitle">Features: mean & std của Văn + Sử + Địa (6 features / tỉnh)</div>
+        </div>
+      </div>
+
+      <div class="chart-grid" style="margin-bottom:24px;">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <span class="chart-card-title">📈 Chọn K – Khối Xã Hội</span>
+            <span class="chart-card-tag">Elbow + Silhouette</span>
+          </div>
+          <div class="chart-card-body">
+            <img src="../charts/kmeans_social_optimal_k.png" alt="K optimal khối xã hội">
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <span class="chart-card-title">📖 Phân cụm – Khối Xã Hội (k=4)</span>
+            <span class="chart-card-tag">K-Means Scatter</span>
+          </div>
+          <div class="chart-card-body">
+            <img src="../charts/kmeans_social_k4_2d.png" alt="K-Means khối xã hội k=4">
+            <div class="comment-box editable" contenteditable="true" data-key="kmeans_social"
+                 data-placeholder="Phân cụm khối Xã Hội (Văn+Sử+Địa) cho thấy phân bố khác biệt so với khối Tự Nhiên...">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CÁC MÔN ĐƠN LẺ -->
+      <a class="section-anchor" id="sec-cluster-subjects"></a>
+      <div class="section-header" style="margin-top:32px;">
+        <div class="section-icon">🔢</div>
+        <div>
+          <div class="section-title">Phân cụm – Môn đơn lẻ</div>
+          <div class="section-subtitle">Ngữ Văn, Vật Lí, Hóa Học</div>
+        </div>
+      </div>
+
+      <div class="tab-bar" data-target="tab-group-subj-cluster">
+        <button class="tab-btn" data-pane="tab-cl-van">Ngữ văn</button>
+        <button class="tab-btn" data-pane="tab-cl-li">Vật lí</button>
+        <button class="tab-btn" data-pane="tab-cl-hoa">Hóa học</button>
+      </div>
+
+      <div id="tab-group-subj-cluster">
+        <div class="tab-pane" id="tab-cl-van">
+          <div class="chart-grid">
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <span class="chart-card-title">📈 Chọn K – Ngữ Văn</span>
+                <span class="chart-card-tag">Elbow + Silhouette</span>
+              </div>
+              <div class="chart-card-body">
+                <img src="../charts/kmeans_van_optimal_k.png" alt="K optimal Văn">
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <span class="chart-card-title">✍️ Phân cụm – Ngữ Văn (k=4)</span>
+                <span class="chart-card-tag">K-Means</span>
+              </div>
+              <div class="chart-card-body">
+                <img src="../charts/kmeans_van_k4_2d.png" alt="K-Means Văn k=4">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="tab-cl-li">
+          <div class="chart-grid">
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <span class="chart-card-title">📈 Chọn K – Vật Lí</span>
+                <span class="chart-card-tag">Elbow + Silhouette</span>
+              </div>
+              <div class="chart-card-body">
+                <img src="../charts/kmeans_li_optimal_k.png" alt="K optimal Lí">
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <span class="chart-card-title">⚡ Phân cụm – Vật Lí (k=4)</span>
+                <span class="chart-card-tag">K-Means</span>
+              </div>
+              <div class="chart-card-body">
+                <img src="../charts/kmeans_li_k4_2d.png" alt="K-Means Lí k=4">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="tab-cl-hoa">
+          <div class="chart-grid">
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <span class="chart-card-title">📈 Chọn K – Hóa Học</span>
+                <span class="chart-card-tag">Elbow + Silhouette</span>
+              </div>
+              <div class="chart-card-body">
+                <img src="../charts/kmeans_hoa_optimal_k.png" alt="K optimal Hóa">
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <span class="chart-card-title">🧪 Phân cụm – Hóa Học (k=4)</span>
+                <span class="chart-card-tag">K-Means</span>
+              </div>
+              <div class="chart-card-body">
+                <img src="../charts/kmeans_hoa_k4_2d.png" alt="K-Means Hóa k=4">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION: KIỂM ĐỊNH GIẢ THUYẾT
+         ══════════════════════════════════════════════════════ -->
+    <a class="section-anchor" id="sec-hypothesis"></a>
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">🔬</div>
+        <div>
+          <div class="section-title">Kiểm định Giả thuyết Thống kê</div>
+          <div class="section-subtitle">Case Study: So sánh điểm Toán – Quảng Nam vs Đà Nẵng</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="panel-badge purple">Hypothesis Testing</span>
+        <div class="panel-title">🔬 Welch's t-test: Quảng Nam vs Đà Nẵng</div>
+        <p class="panel-lead">Kiểm định xem có sự khác biệt có ý nghĩa thống kê nào giữa điểm Toán của thí sinh Quảng Nam và Đà Nẵng hay không (hai tỉnh thành sẽ sáp nhập thành một đơn vị hành chính mới).</p>
+
+        <!-- Stat comparison -->
+        <div class="hypo-stats">
+          <div class="hypo-stat blue-stat">
+            <div class="hs-label">🗺️ Quảng Nam</div>
+            <div class="hs-mean" data-count="4.65" data-suffix="">4.65</div>
+            <div class="hs-detail">ĐTB Toán · Std ≈ 1.65</div>
+          </div>
+          <div class="hypo-stat red-stat">
+            <div class="hs-label">🏙️ Đà Nẵng</div>
+            <div class="hs-mean" data-count="5.12" data-suffix="">5.12</div>
+            <div class="hs-detail">ĐTB Toán · Std ≈ 1.78</div>
+          </div>
+        </div>
+
+        <!-- Test procedure -->
+        <h4>Quy trình kiểm định</h4>
+        <div class="highlight-box">
+          <ol style="padding-left:22px; font-size:13.5px; line-height:2;">
+            <li><strong>Kiểm định Levene</strong> – kiểm tra đồng nhất phương sai (H₀: σ₁² = σ₂²)</li>
+            <li><strong>Welch's t-test (hai phía)</strong> – H₀: μ_QN = μ_ĐN, α = 0.05</li>
+            <li><strong>Effect size: Cohen's d</strong> – đánh giá mức độ khác biệt thực tế</li>
+            <li><strong>Mann-Whitney U</strong> – kiểm tra phi tham số bổ sung</li>
+          </ol>
+        </div>
+
+        <!-- Result -->
+        <div class="result-banner reject">
+          <span class="rb-icon">❌</span>
+          <span><strong>BÁC BỎ H₀</strong> — Có sự khác biệt có ý nghĩa thống kê (p &lt; 0.001). Đà Nẵng có ĐTB Toán cao hơn Quảng Nam. Cohen's d cho thấy mức độ khác biệt nhỏ-vừa.</span>
+        </div>
+
+        <!-- Charts -->
+        <div class="chart-card" style="margin-top:20px;">
+          <div class="chart-card-header">
+            <span class="chart-card-title">📊 So sánh phân bố & Box Plot điểm Toán</span>
+            <span class="chart-card-tag">Quảng Nam vs Đà Nẵng</span>
+          </div>
+          <div class="chart-card-body">
+            <img src="../charts/hypothesis_toan_qnam_danang.png" alt="Hypothesis testing Toán">
+          </div>
+        </div>
+
+        <h4>Ý nghĩa sau sáp nhập</h4>
+        <div class="callout">
+          Kết quả kiểm định cho thấy hai tỉnh có nền giáo dục với chất lượng khác nhau có ý nghĩa thống kê. Việc sáp nhập hành chính cần đi kèm với chính sách san bằng khoảng cách này — đặc biệt trong đầu tư cơ sở hạ tầng giáo dục tại các huyện vùng cao của Quảng Nam.
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION: TƯƠNG QUAN
+         ══════════════════════════════════════════════════════ -->
+    <a class="section-anchor" id="sec-corr"></a>
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">🔗</div>
+        <div>
+          <div class="section-title">Tương quan giữa các Môn thi</div>
+          <div class="section-subtitle">Pearson Correlation Matrix – các môn chính</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="panel-badge blue">Correlation Analysis</span>
+        <div class="panel-title">🔥 Ma trận tương quan Pearson</div>
+        <p class="panel-lead">Phân tích mối quan hệ tuyến tính giữa 8 môn thi chính (Toán, Văn, Lý, Hóa, Sinh, Sử, Địa, Ngoại ngữ). Hệ số tương quan ∈ [–1, 1]; màu xanh lá = dương mạnh, màu đỏ = âm.</p>
+
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <span class="chart-card-title">🔥 Heatmap tương quan điểm thi</span>
+            <span class="chart-card-tag">Pearson · Lower Triangle</span>
+          </div>
+          <div class="chart-card-body">
+            <img src="../charts/corr_heatmap.png" alt="Heatmap tương quan">
+          </div>
+        </div>
+
+        <h4>Nhận xét chính</h4>
+        <div class="highlight-box">
+          <ul>
+            <li><strong>Nhóm Tự Nhiên (Toán–Lý–Hóa):</strong> Tương quan dương cao (~0.6–0.75). Thí sinh giỏi một môn thường giỏi các môn còn lại trong nhóm.</li>
+            <li><strong>Nhóm Xã Hội (Văn–Sử–Địa):</strong> Tương quan dương vừa (~0.4–0.6). Liên kết giữa các môn thấp hơn do đặc thù tư duy khác nhau.</li>
+            <li><strong>Liên nhóm (Tự Nhiên ↔ Xã Hội):</strong> Tương quan thấp (0.1–0.3). Hai nhóm năng lực tương đối độc lập, phù hợp với lý thuyết đa trí tuệ Gardner.</li>
+            <li><strong>Ngoại ngữ:</strong> Có tương quan vừa phải với cả hai nhóm, đóng vai trò như "môn trung gian".</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <!-- /main-content -->
+
+</div>
+<!-- /page-wrapper -->
+
+<!-- ════════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════════ -->
+<footer id="page-footer">
+  <p>
+    Báo cáo được tạo tự động từ <code>process.ipynb</code> &nbsp;·&nbsp;
+    Nguồn dữ liệu: Bộ Giáo dục &amp; Đào tạo &nbsp;·&nbsp;
+    Phân tích: <a href="#">minhtriet-le</a> &nbsp;·&nbsp;
+    <span>© 2025 Graduation Score Analysis</span>
+  </p>
+</footer>
+
+<!-- ════════════════════════════════════════════════════════════
+     LIGHTBOX
+     ════════════════════════════════════════════════════════════ -->
+<div id="lightbox">
+  <button id="lightbox-close" aria-label="Đóng">×</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     BACK TO TOP
+     ════════════════════════════════════════════════════════════ -->
+<button id="back-to-top" aria-label="Về đầu trang" title="Về đầu trang">↑</button>
+
+<!-- ════════════════════════════════════════════════════════════
+     SCRIPTS
+     ════════════════════════════════════════════════════════════ -->
+<script src="js/charts.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
