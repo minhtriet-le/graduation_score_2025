@@ -479,24 +479,19 @@ body {
   line-height: 1.75;
   background: #fbfcff;
   min-height: 80px;
-  white-space: pre-wrap;
 }
-
-.comment-box.editable {
-  outline: none;
-  cursor: text;
+.comment-box p {
+  margin: 0 0 0.6em 0;
 }
-
-.comment-box.editable:focus {
-  border-color: var(--blue);
-  background: var(--white);
-  box-shadow: 0 0 0 3px rgb(59 130 246 / .1);
+.comment-box p:last-child {
+  margin-bottom: 0;
 }
-
-.comment-box:empty::before {
-  content: attr(data-placeholder);
-  color: #b0bcd4;
-  font-style: italic;
+.comment-box ul {
+  margin: 0.4em 0 0.6em 1.4em;
+  padding: 0;
+}
+.comment-box li {
+  margin-bottom: 0.25em;
 }
 
 /* ============================================================
@@ -663,6 +658,7 @@ body {
   padding: 18px 22px 20px;
   margin-bottom: 16px;
   box-shadow: var(--shadow-sm);
+  overflow: hidden;
 }
 
 .step-title {
@@ -689,8 +685,11 @@ body {
   padding: 14px 18px;
   border-radius: var(--radius-sm);
   overflow-x: auto;
+  overflow-y: hidden;
   white-space: pre;
   margin-top: 8px;
+  word-wrap: break-word;
+  max-width: 100%;
 }
 
 .code-block .kw  { color: #c084fc; }

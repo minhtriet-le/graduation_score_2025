@@ -19,7 +19,6 @@
     initBackToTop();
     initSidebarSearch();
     initHamburger();
-    initCommentPersist();
   }
 
   /* ============================================================
@@ -251,26 +250,6 @@
     sidebar.querySelectorAll('.sidebar-link').forEach(link => {
       link.addEventListener('click', () => {
         if (window.innerWidth <= 768) close();
-      });
-    });
-  }
-
-  /* ============================================================
-     10. PERSIST COMMENTS IN localStorage
-     ============================================================ */
-  function initCommentPersist() {
-    const boxes = document.querySelectorAll('.comment-box.editable[data-key]');
-
-    boxes.forEach(box => {
-      const key = 'comment_' + box.dataset.key;
-
-      // Restore saved content
-      const saved = localStorage.getItem(key);
-      if (saved) box.textContent = saved;
-
-      // Save on input
-      box.addEventListener('input', () => {
-        localStorage.setItem(key, box.textContent);
       });
     });
   }
