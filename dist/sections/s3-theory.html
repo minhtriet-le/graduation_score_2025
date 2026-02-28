@@ -1,0 +1,86 @@
+    <!-- SECTION: CƠ SỞ LÝ THUYẾT -->
+    <a class="section-anchor" id="sec-theory"></a>
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">📚</div>
+        <div><div class="section-title">Cơ sở Lý thuyết</div><div class="section-subtitle">Đo lường giáo dục & Phân tích phân phối điểm</div></div>
+        </div>
+
+      <div class="panel">
+        <span class="panel-badge yellow">Lý thuyết đo lường</span>
+        <div class="panel-title">📚 Phân Tích Phân Phối Điểm Số Dưới Góc Độ Đo Lường Giáo Dục</div>
+        <p class="panel-lead">Sử dụng nền tảng từ <strong>Lý thuyết Đo lường Giáo dục (Educational Measurement)</strong> để đánh giá tính hiệu lực và độ tin cậy của đề thi.</p>
+
+        <h4>1. Lý thuyết Ứng đáp Câu hỏi (Item Response Theory – IRT)</h4>
+        <div class="highlight-box">
+          <p>Mô hình <strong>3 tham số (3PL)</strong> đảm bảo đề thi phản ánh đúng năng lực thí sinh:</p>
+          <ul>
+            <li><strong>Độ khó (Difficulty – <em>b</em>):</strong> Hàm thông tin tối ưu khi <em>b</em> hội tụ quanh 0 (≈ 5.0 điểm). <em>b &gt; 0</em> → phổ điểm lệch trái nhẹ, đề thi có thách thức cao.</li>
+            <li><strong>Độ phân biệt (Discrimination – <em>a</em>):</strong> <em>a</em> cao → SD rộng, phân loại rõ tầng năng lực.</li>
+            <li><strong>Đoán mò (Guessing – <em>c</em>):</strong> Với trắc nghiệm 4 lựa chọn, <em>c</em> = 25%. Thiết kế đề để mean ≈ 4.5 – 5.5 triệt tiêu nhiễu may mắn.</li>
+          </ul>
+        </div>
+
+        <h4>2. Quy tắc Phân phối Chuẩn & Độ phân tán</h4>
+        <div class="highlight-box">
+          <p>Đề thi lý tưởng cho quần thể &gt; 1 triệu thí sinh cần thỏa mãn:</p>
+          <ul>
+            <li><strong>Ngưỡng 68-95-99.7:</strong> 95% dữ liệu trong <span class="formula">[Mean − 2SD, Mean + 2SD]</span>.</li>
+            <li><strong>SD lý tưởng:</strong> Để phổ điểm bao phủ 1–9: <span class="formula">8/4 = 2.0</span> → <strong>SD = 1.5 – 2.0</strong>. Dưới 1.5 → phổ nhọn, trên 2.0 → sai số đo lường lớn.</li>
+          </ul>
+        </div>
+
+        <h4>3. Bảng Đối Chiếu Chỉ Số Lý Tưởng</h4>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Chỉ số thống kê</th>
+              <th>Ngưỡng lý tưởng</th>
+              <th>Mục tiêu đo lường</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Điểm trung bình (Mean)</td>
+              <td><span class="badge badge-blue">5.0 – 5.5</span></td>
+              <td>Tối ưu hóa hàm thông tin và tính đối xứng của phổ điểm.</td>
+            </tr>
+            <tr>
+              <td>Độ lệch chuẩn (SD)</td>
+              <td><span class="badge badge-blue">1.6 – 2.0</span></td>
+              <td>Tạo không gian phân hóa đủ rộng cho các tầng năng lực.</td>
+            </tr>
+            <tr>
+              <td>Hệ số lệch (Skewness)</td>
+              <td><span class="badge badge-green">Tiệm cận 0</span></td>
+              <td>Phản ánh sự tương thích giữa đề thi và năng lực thực tế.</td>
+            </tr>
+            <tr>
+              <td>Kurtosis</td>
+              <td><span class="badge badge-amber">Gần 3 (Mesokurtic)</span></td>
+              <td>Đảm bảo phân phối không quá nhọn hoặc quá dẹt.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4>4. Phân tích Hiện tượng Lệch phải (Positive Skewness) và Lệch trái (Negative Skewness)</h4>
+        <div class="highlight-box">
+          <p style="margin:0 0 8px 0;font-weight:600;">📈 Lệch phải (Right Skew / Positive Skewness) — Đuôi phân phối kéo về phía điểm cao</p>
+          <ul>
+            <li><strong>Hiệu ứng sàn (Floor Effect):</strong> Đỉnh phổ dồn ở 2.0–3.5 → đề quá khó, vượt ngưỡng nhận thức đại trà; đa số thí sinh không tiếp cận được điểm trung bình lý tưởng.</li>
+            <li><strong>Phân hóa cực đoan:</strong> Câu hỏi vận dụng cao tạo "vách đá" khiến nhóm trung bình không thể bứt phá, trong khi nhóm học lực tốt vẫn đạt điểm cao dễ dàng.</li>
+            <li><strong>Hệ quả xét tuyển:</strong> Khi <em>Mean &lt; Median &lt; Mode</em>, điểm chuẩn đại học hạ thấp tương ứng, tạo lợi thế cho nhóm đã ôn luyện chuyên sâu.</li>
+          </ul>
+          <p style="margin:8px 0 8px 0;font-weight:600;">📉 Lệch trái (Left Skew / Negative Skewness) — Đuôi phân phối kéo về phía điểm thấp</p>
+          <ul>
+            <li><strong>Hiệu ứng trần (Ceiling Effect):</strong> Đỉnh phổ dồn ở 7.5–9.0 → đề quá dễ hoặc thiên về "hỗ trợ tốt nghiệp", mất khả năng phân biệt giữa các mức năng lực ở nhóm khá–giỏi.</li>
+            <li><strong>Nén điểm (Score Compression):</strong> Khi <em>Mean &gt; Median &gt; Mode</em>, hàng chục nghìn thí sinh cùng đạt dải điểm hẹp 7.0–8.5, làm mất ý nghĩa của 0.25–0.5 điểm trong xét tuyển.</li>
+            <li><strong>Áp lực chuyển sang môn khác:</strong> Môn lệch trái mạnh (Ngữ văn, GDCD) buộc tổ hợp xét tuyển phải phụ thuộc vào môn còn lại để tạo ra khoảng cách điểm đủ lớn giữa các thí sinh.</li>
+          </ul>
+        </div>
+
+        <div class="callout">
+          Cả hai hiện tượng đều phản ánh sự <strong>mất cân bằng trong thiết kế đề thi</strong>: lệch phải làm khó nhóm trung bình, lệch trái làm mờ ranh giới giữa các mức năng lực cao. Một đề thi cân bằng cần SD trong ngưỡng 1.5–2.0 và phân phối đủ rộng để điểm số phản ánh thực chất năng lực — phục vụ đồng thời mục tiêu <em>xét công nhận tốt nghiệp</em> và <em>xét tuyển đại học</em>.
+        </div>
+      </div>
+    </section>

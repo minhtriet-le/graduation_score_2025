@@ -1,0 +1,201 @@
+    <!-- SECTION: PHÂN CỤM K-MEANS -->
+    <a class="section-anchor" id="sec-cluster"></a>
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">🗂️</div>
+        <div><div class="section-title">Phân cụm K-Means theo Tỉnh</div><div class="section-subtitle">Features: Điểm trung bình & Độ lệch chuẩn | StandardScaler | k = 4</div></div>
+        </div>
+
+      <!-- Theory note -->
+      <div class="panel" style="margin-bottom:24px;">
+        <span class="panel-badge purple">Phương pháp</span>
+        <div class="panel-title">Phương pháp Phân cụm K-Means</div>
+        <p class="panel-lead">Mỗi tỉnh được biểu diễn bởi 2 features (mean & std điểm) sau khi chuẩn hoá bằng StandardScaler. K tối ưu được chọn qua Elbow Method (Inertia) và Silhouette Score. Kết quả phân 63 tỉnh/thành vào 4 nhóm năng lực.</p>
+        <div class="cluster-grid">
+          <div class="cluster-card c1">
+            <div class="cc-title">🟢 Cụm 1 – Xuất sắc</div>
+            <div class="cc-provinces">ĐTB cao, độ phân tán hợp lý. Đây thường là các thành phố lớn, trung tâm giáo dục.</div>
+          </div>
+          <div class="cluster-card c2">
+            <div class="cc-title">🔵 Cụm 2 – Khá</div>
+            <div class="cc-provinces">ĐTB trên mức trung bình quốc gia. Có sự đầu tư nhất định vào giáo dục.</div>
+          </div>
+          <div class="cluster-card c3">
+            <div class="cc-title">🟡 Cụm 3 – Trung bình</div>
+            <div class="cc-provinces">ĐTB gần mức trung bình toàn quốc. Cần cải thiện chất lượng giảng dạy.</div>
+          </div>
+          <div class="cluster-card c4">
+            <div class="cc-title">🔴 Cụm 4 – Yếu</div>
+            <div class="cc-provinces">ĐTB thấp hơn mức trung bình. Thường là các tỉnh vùng sâu vùng xa, khó khăn.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- K optimal selection charts -->
+      <div class="chart-grid" style="margin-bottom:24px;">
+        <div class="chart-card">
+          <div class="chart-card-header"><span class="chart-card-title">📈 Chọn K tối ưu – Điểm Toán (tỉnh gốc)</span><span class="chart-card-tag">Elbow + Silhouette</span></div>
+          <div class="chart-card-body">
+            <img src="charts/kmeans_optimal_k.png" alt="Chọn K tối ưu - Toán tỉnh gốc">
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-header"><span class="chart-card-title">🗺️ Phân cụm – Điểm Toán (k=4, tỉnh gốc)</span><span class="chart-card-tag">K-Means Scatter</span></div>
+          <div class="chart-card-body">
+            <img src="charts/kmeans_k4_2d.png" alt="K-Means Toán k=4 tỉnh gốc">
+            <div class="comment-box">
+              <p>Nhận xét về phân cụm tỉnh theo điểm Toán (tỉnh gốc)...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SAU SÁP NHẬP -->
+      <a class="section-anchor" id="sec-cluster-moi"></a>
+      <div class="section-header" style="margin-top:32px;">
+        <div class="section-icon" style="background:#fef3c7;color:#92400e;">🆕</div>
+        <div>
+          <div class="section-title">Phân cụm sau Sáp nhập Tỉnh 2025</div>
+          <div class="section-subtitle">63 → 34 tỉnh/thành mới theo quy hoạch hành chính 2025</div>
+        </div>
+      </div>
+
+      <div class="chart-grid" style="margin-bottom:24px;">
+        <div class="chart-card">
+          <div class="chart-card-header"><span class="chart-card-title">📈 Chọn K tối ưu – Tỉnh mới</span><span class="chart-card-tag">Elbow + Silhouette</span></div>
+          <div class="chart-card-body">
+            <img src="charts/kmeans_moi_optimal_k.png" alt="Chọn K tối ưu tỉnh mới">
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-header"><span class="chart-card-title">🗺️ Phân cụm – Tỉnh SAU SÁP NHẬP (k=4)</span><span class="chart-card-tag">K-Means Scatter</span></div>
+          <div class="chart-card-body">
+            <img src="charts/kmeans_moi_k4_2d.png" alt="K-Means tỉnh mới k=4">
+            <div class="comment-box">
+              <p>Sau khi sáp nhập tỉnh, bức tranh phân bố chất lượng giáo dục có sự thay đổi đáng kể. Các tỉnh được sáp nhập với nhau tạo ra các đơn vị hành chính mới với đặc điểm kinh tế-xã hội khác biệt...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KHỐI TỰ NHIÊN -->
+      <a class="section-anchor" id="sec-cluster-natural"></a>
+      <div class="section-header" style="margin-top:32px;">
+        <div class="section-icon" style="background:#d1fae5;color:#065f46;">🔬</div>
+        <div>
+          <div class="section-title">Phân cụm – Khối Tự Nhiên</div>
+          <div class="section-subtitle">Features: mean & std của Toán + Lý + Hóa (6 features / tỉnh)</div>
+        </div>
+      </div>
+
+      <div class="chart-grid" style="margin-bottom:24px;">
+        <div class="chart-card">
+          <div class="chart-card-header"><span class="chart-card-title">📈 Chọn K – Khối Tự Nhiên</span><span class="chart-card-tag">Elbow + Silhouette</span></div>
+          <div class="chart-card-body">
+            <img src="charts/kmeans_natural_optimal_k.png" alt="K optimal khối tự nhiên">
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-header"><span class="chart-card-title">🔬 Phân cụm – Khối Tự Nhiên (k=4)</span><span class="chart-card-tag">K-Means Scatter</span></div>
+          <div class="chart-card-body">
+            <img src="charts/kmeans_natural_k4_2d.png" alt="K-Means khối tự nhiên k=4">
+            <div class="comment-box">
+              <p>Phân cụm khối Tự Nhiên (Toán+Lý+Hóa) với 6 features giúp xác định chính xác hơn vùng địa lý có thế mạnh về khoa học tự nhiên. Trục X (ĐTB tổng hợp) và trục Y (Std TB) cho thấy sự phân tầng rõ ràng...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KHỐI XÃ HỘI -->
+      <a class="section-anchor" id="sec-cluster-social"></a>
+      <div class="section-header" style="margin-top:32px;">
+        <div class="section-icon" style="background:#dbeafe;color:#1d4ed8;">📖</div>
+        <div>
+          <div class="section-title">Phân cụm – Khối Xã Hội</div>
+          <div class="section-subtitle">Features: mean & std của Văn + Sử + Địa (6 features / tỉnh)</div>
+        </div>
+      </div>
+
+      <div class="chart-grid" style="margin-bottom:24px;">
+        <div class="chart-card">
+          <div class="chart-card-header"><span class="chart-card-title">📈 Chọn K – Khối Xã Hội</span><span class="chart-card-tag">Elbow + Silhouette</span></div>
+          <div class="chart-card-body">
+            <img src="charts/kmeans_social_optimal_k.png" alt="K optimal khối xã hội">
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-header"><span class="chart-card-title">📖 Phân cụm – Khối Xã Hội (k=4)</span><span class="chart-card-tag">K-Means Scatter</span></div>
+          <div class="chart-card-body">
+            <img src="charts/kmeans_social_k4_2d.png" alt="K-Means khối xã hội k=4">
+            <div class="comment-box">
+              <p>Phân cụm khối Xã Hội (Văn+Sử+Địa) cho thấy phân bố khác biệt so với khối Tự Nhiên...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CÁC MÔN ĐƠN LẺ -->
+      <a class="section-anchor" id="sec-cluster-subjects"></a>
+      <div class="section-header" style="margin-top:32px;">
+        <div class="section-icon">🔢</div>
+        <div><div class="section-title">Phân cụm – Môn đơn lẻ</div><div class="section-subtitle">Ngữ Văn, Vật Lí, Hóa Học</div></div>
+        </div>
+
+      <div class="tab-bar" data-target="tab-group-subj-cluster">
+        <button class="tab-btn" data-pane="tab-cl-van">Ngữ văn</button>
+        <button class="tab-btn" data-pane="tab-cl-li">Vật lí</button>
+        <button class="tab-btn" data-pane="tab-cl-hoa">Hóa học</button>
+      </div>
+
+      <div id="tab-group-subj-cluster">
+        <div class="tab-pane" id="tab-cl-van">
+          <div class="chart-grid">
+            <div class="chart-card">
+              <div class="chart-card-header"><span class="chart-card-title">📈 Chọn K – Ngữ Văn</span><span class="chart-card-tag">Elbow + Silhouette</span></div>
+              <div class="chart-card-body">
+                <img src="charts/kmeans_van_optimal_k.png" alt="K optimal Văn">
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-card-header"><span class="chart-card-title">✍️ Phân cụm – Ngữ Văn (k=4)</span><span class="chart-card-tag">K-Means</span></div>
+              <div class="chart-card-body">
+                <img src="charts/kmeans_van_k4_2d.png" alt="K-Means Văn k=4">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="tab-cl-li">
+          <div class="chart-grid">
+            <div class="chart-card">
+              <div class="chart-card-header"><span class="chart-card-title">📈 Chọn K – Vật Lí</span><span class="chart-card-tag">Elbow + Silhouette</span></div>
+              <div class="chart-card-body">
+                <img src="charts/kmeans_li_optimal_k.png" alt="K optimal Lí">
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-card-header"><span class="chart-card-title">⚡ Phân cụm – Vật Lí (k=4)</span><span class="chart-card-tag">K-Means</span></div>
+              <div class="chart-card-body">
+                <img src="charts/kmeans_li_k4_2d.png" alt="K-Means Lí k=4">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="tab-cl-hoa">
+          <div class="chart-grid">
+            <div class="chart-card">
+              <div class="chart-card-header"><span class="chart-card-title">📈 Chọn K – Hóa Học</span><span class="chart-card-tag">Elbow + Silhouette</span></div>
+              <div class="chart-card-body">
+                <img src="charts/kmeans_hoa_optimal_k.png" alt="K optimal Hóa">
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-card-header"><span class="chart-card-title">🧪 Phân cụm – Hóa Học (k=4)</span><span class="chart-card-tag">K-Means</span></div>
+              <div class="chart-card-body">
+                <img src="charts/kmeans_hoa_k4_2d.png" alt="K-Means Hóa k=4">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>

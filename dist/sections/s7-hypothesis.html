@@ -1,0 +1,58 @@
+    <!-- SECTION: KIỂM ĐỊNH GIẢ THUYẾT -->
+    <a class="section-anchor" id="sec-hypothesis"></a>
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">🔬</div>
+        <div><div class="section-title">Kiểm định Giả thuyết Thống kê</div><div class="section-subtitle">Case Study: So sánh điểm Toán – Quảng Nam vs Đà Nẵng</div></div>
+        </div>
+
+      <div class="panel">
+        <span class="panel-badge purple">Hypothesis Testing</span>
+        <div class="panel-title">🔬 Welch's t-test: Quảng Nam vs Đà Nẵng</div>
+        <p class="panel-lead">Kiểm định xem có sự khác biệt có ý nghĩa thống kê nào giữa điểm Toán của thí sinh Quảng Nam và Đà Nẵng hay không (hai tỉnh thành sẽ sáp nhập thành một đơn vị hành chính mới).</p>
+
+        <!-- Stat comparison -->
+        <div class="hypo-stats">
+          <div class="hypo-stat blue-stat">
+            <div class="hs-label">🗺️ Quảng Nam</div>
+            <div class="hs-mean" data-count="4.65" data-suffix="">4.65</div>
+            <div class="hs-detail">ĐTB Toán · Std ≈ 1.65</div>
+          </div>
+          <div class="hypo-stat red-stat">
+            <div class="hs-label">🏙️ Đà Nẵng</div>
+            <div class="hs-mean" data-count="5.12" data-suffix="">5.12</div>
+            <div class="hs-detail">ĐTB Toán · Std ≈ 1.78</div>
+          </div>
+        </div>
+
+        <!-- Test procedure -->
+        <h4>Quy trình kiểm định</h4>
+        <div class="highlight-box">
+          <ol style="padding-left:22px; font-size:13.5px; line-height:2;">
+            <li><strong>Kiểm định Levene</strong> – kiểm tra đồng nhất phương sai (H₀: σ₁² = σ₂²)</li>
+            <li><strong>Welch's t-test (hai phía)</strong> – H₀: μ_QN = μ_ĐN, α = 0.05</li>
+            <li><strong>Effect size: Cohen's d</strong> – đánh giá mức độ khác biệt thực tế</li>
+            <li><strong>Mann-Whitney U</strong> – kiểm tra phi tham số bổ sung</li>
+          </ol>
+        </div>
+
+        <!-- Result -->
+        <div class="result-banner reject">
+          <span class="rb-icon">❌</span>
+          <span><strong>BÁC BỎ H₀</strong> — Có sự khác biệt có ý nghĩa thống kê (p &lt; 0.001). Đà Nẵng có ĐTB Toán cao hơn Quảng Nam. Cohen's d cho thấy mức độ khác biệt nhỏ-vừa.</span>
+        </div>
+
+        <!-- Charts -->
+        <div class="chart-card" style="margin-top:20px;">
+          <div class="chart-card-header"><span class="chart-card-title">📊 So sánh phân bố & Box Plot điểm Toán</span><span class="chart-card-tag">Quảng Nam vs Đà Nẵng</span></div>
+          <div class="chart-card-body">
+            <img src="charts/hypothesis_toan_qnam_danang.png" alt="Hypothesis testing Toán">
+          </div>
+        </div>
+
+        <h4>Ý nghĩa sau sáp nhập</h4>
+        <div class="callout">
+          Kết quả kiểm định cho thấy hai tỉnh có nền giáo dục với chất lượng khác nhau có ý nghĩa thống kê. Việc sáp nhập hành chính cần đi kèm với chính sách san bằng khoảng cách này — đặc biệt trong đầu tư cơ sở hạ tầng giáo dục tại các huyện vùng cao của Quảng Nam.
+        </div>
+      </div>
+    </section>

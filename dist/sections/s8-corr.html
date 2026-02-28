@@ -1,0 +1,31 @@
+    <!-- SECTION: TƯƠNG QUAN -->
+    <a class="section-anchor" id="sec-corr"></a>
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">🔗</div>
+        <div><div class="section-title">Tương quan giữa các Môn thi</div><div class="section-subtitle">Pearson Correlation Matrix – các môn chính</div></div>
+        </div>
+
+      <div class="panel">
+        <span class="panel-badge blue">Correlation Analysis</span>
+        <div class="panel-title">🔥 Ma trận tương quan Pearson</div>
+        <p class="panel-lead">Phân tích mối quan hệ tuyến tính giữa 8 môn thi chính (Toán, Văn, Lý, Hóa, Sinh, Sử, Địa, Ngoại ngữ). Hệ số tương quan ∈ [–1, 1]; màu xanh lá = dương mạnh, màu đỏ = âm.</p>
+
+        <div class="chart-card">
+          <div class="chart-card-header"><span class="chart-card-title">🔥 Heatmap tương quan điểm thi</span><span class="chart-card-tag">Pearson · Lower Triangle</span></div>
+          <div class="chart-card-body">
+            <img src="charts/corr_heatmap.png" alt="Heatmap tương quan">
+          </div>
+        </div>
+
+        <h4>Nhận xét chính</h4>
+        <div class="highlight-box">
+          <ul>
+            <li><strong>Nhóm Tự Nhiên (Toán–Lý–Hóa):</strong> Tương quan dương cao (~0.6–0.75). Thí sinh giỏi một môn thường giỏi các môn còn lại trong nhóm.</li>
+            <li><strong>Nhóm Xã Hội (Văn–Sử–Địa):</strong> Tương quan dương vừa (~0.4–0.6). Liên kết giữa các môn thấp hơn do đặc thù tư duy khác nhau.</li>
+            <li><strong>Liên nhóm (Tự Nhiên ↔ Xã Hội):</strong> Tương quan thấp (0.1–0.3). Hai nhóm năng lực tương đối độc lập, phù hợp với lý thuyết đa trí tuệ Gardner.</li>
+            <li><strong>Ngoại ngữ:</strong> Có tương quan vừa phải với cả hai nhóm, đóng vai trò như "môn trung gian".</li>
+          </ul>
+        </div>
+      </div>
+    </section>

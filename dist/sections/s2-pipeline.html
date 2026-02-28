@@ -1,0 +1,116 @@
+    <!-- SECTION: ETL PIPELINE -->
+    <a class="section-anchor" id="sec-pipeline"></a>
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">🔄</div>
+        <div><div class="section-title">ETL Pipeline</div><div class="section-subtitle">Quy trình xử lý dữ liệu thô từ Excel → Parquet</div></div>
+        </div>
+
+      <div class="panel">
+        <span class="panel-badge blue">Bước 1 – Transform</span>
+        <div class="panel-title">🔄 Ingest & Normalize</div>
+        <p class="panel-lead">Chuyển đổi dữ liệu thô từ nhiều file <code>.xlsx</code> thành định dạng Parquet tối ưu, sẵn sàng cho phân tích.</p>
+
+        <div class="pipeline-wrap">
+
+          <div class="pipeline-step">
+            <div class="step-circle"><div class="step-num">1</div></div>
+            <div class="step-body">
+              <div class="step-title">Đọc dữ liệu – Multi-Sheet Scanning</div>
+              <div class="step-desc">Duyệt tất cả file <code>.xlsx</code>, đọc từng sheet và gắn metadata nguồn gốc (<code>origin_file</code>, <code>origin_sheet</code>).</div>
+              <div class="code-block"><span class="kw">for</span> file_path <span class="kw">in</span> data_dir.glob(<span class="st">"*.xlsx"</span>):
+    excel_data = pd.read_excel(file_path, sheet_name=<span class="kw">None</span>)
+    <span class="kw">for</span> sheet_name, df <span class="kw">in</span> excel_data.items():
+        df[<span class="st">'origin_file'</span>] = file_path.name
+        df[<span class="st">'origin_sheet'</span>] = <span class="fn">str</span>(sheet_name)
+        all_dfs.append(df)</div>
+            </div>
+          </div>
+
+          <div class="pipeline-step">
+            <div class="step-circle"><div class="step-num">2</div></div>
+            <div class="step-body">
+              <div class="step-title">Chuẩn hoá tên cột</div>
+              <div class="step-desc">Xoá dấu, viết thường, thay khoảng trắng bằng dấu gạch dưới. Ví dụ: <em>"Tin học" → "tin_hoc"</em></div>
+              <div class="code-block">final_df.columns = [
+    unidecode(col).lower().replace(<span class="st">' '</span>, <span class="st">'_'</span>)
+    <span class="kw">for</span> col <span class="kw">in</span> final_df.columns
+]  <span class="cm"># "Tin học" → "tin_hoc"</span></div>
+            </div>
+          </div>
+
+          <div class="pipeline-step">
+            <div class="step-circle"><div class="step-num">3</div></div>
+            <div class="step-body">
+              <div class="step-title">Làm sạch mã số báo danh (SBD)</div>
+              <div class="step-desc">Loại dòng thiếu SBD, chuẩn hoá về 8 chữ số bằng zero-padding.</div>
+              <div class="code-block">final_df = final_df[final_df[<span class="st">'sobaodanh'</span>].notna()]
+final_df[<span class="st">'sobaodanh'</span>] = (
+    final_df[<span class="st">'sobaodanh'</span>]
+    .astype(<span class="fn">int</span>).astype(<span class="fn">str</span>).str.zfill(<span class="num">8</span>)
+)  <span class="cm"># 12345 → "00012345"</span></div>
+            </div>
+          </div>
+
+          <div class="pipeline-step">
+            <div class="step-circle"><div class="step-num">4</div></div>
+            <div class="step-body">
+              <div class="step-title">Tối ưu kiểu dữ liệu</div>
+              <div class="step-desc">Chuyển điểm sang <code>float32</code> để tiết kiệm bộ nhớ; giá trị lỗi (ABS, bỏ thi…) thành <code>NaN</code>.</div>
+              <div class="code-block"><span class="kw">for</span> col <span class="kw">in</span> score_cols:
+    final_df[col] = pd.to_numeric(
+        final_df[col], errors=<span class="st">'coerce'</span>
+    ).astype(<span class="st">'float32'</span>)</div>
+            </div>
+          </div>
+
+          <div class="pipeline-step">
+            <div class="step-circle"><div class="step-num">5</div></div>
+            <div class="step-body">
+              <div class="step-title">Gắn mã tỉnh & sáp nhập tỉnh mới</div>
+              <div class="step-desc">Trích 2 ký tự đầu SBD làm mã tỉnh (<code>ma_tinh</code>), map sang tên tỉnh gốc và tỉnh mới sau sáp nhập 2025.</div>
+            </div>
+          </div>
+
+          <div class="pipeline-step">
+            <div class="step-circle"><div class="step-num">6</div></div>
+            <div class="step-body">
+              <div class="step-title">Xuất Parquet</div>
+              <div class="step-desc">Sắp xếp theo SBD, lưu bằng engine PyArrow – nhanh, nén tốt, hỗ trợ kiểu dữ liệu phức tạp.</div>
+              <div class="code-block">final_df = final_df.sort_values(<span class="st">'sobaodanh'</span>)
+final_df.to_parquet(output_filename,
+    engine=<span class="st">'pyarrow'</span>, index=<span class="kw">False</span>)</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="panel-badge green">Bước 2 – Phân tích</span>
+        <div class="panel-title">📊 Visualization Pipeline</div>
+        <p class="panel-lead">Đọc file Parquet đã chuẩn hoá, thực hiện thống kê mô tả và trực quan hoá phân phối điểm từng môn.</p>
+
+        <div class="tab-bar" data-target="tab-group-analysis">
+          <button class="tab-btn" data-pane="tab-stats">Thống kê mô tả</button>
+          <button class="tab-btn" data-pane="tab-charts">Biểu đồ phân phối</button>
+          <button class="tab-btn" data-pane="tab-cluster">Phân cụm</button>
+          <button class="tab-btn" data-pane="tab-test">Kiểm định</button>
+        </div>
+
+        <div id="tab-group-analysis">
+          <div class="tab-pane" id="tab-stats">
+            <p>Tính mean, median, std, skewness, kurtosis theo từng môn thi trên toàn quốc. Đánh giá theo <em>ngưỡng vàng</em> IRT: mean ≈ 5.0 – 5.5, SD = 1.6 – 2.0.</p>
+          </div>
+          <div class="tab-pane" id="tab-charts">
+            <p>Vẽ histogram phân phối điểm (bin width = 0.5 điểm), annotate thống kê trực tiếp trên biểu đồ. Xuất PNG 120 DPI vào thư mục <code>charts/</code>.</p>
+          </div>
+          <div class="tab-pane" id="tab-cluster">
+            <p>K-Means clustering với StandardScaler, chọn K tối ưu qua Elbow Method + Silhouette Score. Áp dụng cho từng môn đơn, khối Tự Nhiên (Toán+Lý+Hóa), khối Xã Hội (Văn+Sử+Địa) và theo tỉnh sau sáp nhập.</p>
+          </div>
+          <div class="tab-pane" id="tab-test">
+            <p>Kiểm định Levene → Welch's t-test (hai phía, α = 0.05). Tính Cohen's d (effect size) và Mann-Whitney U test (phi tham số). Case study: Quảng Nam vs Đà Nẵng.</p>
+          </div>
+        </div>
+      </div>
+    </section>

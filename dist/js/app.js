@@ -7,9 +7,9 @@
 
   /* ============================================================
      1. DOM READY
+     loader.js calls window.__appInit() after injecting sections.
+     If sections are already present (e.g. no loader), init on DOMContentLoaded.
      ============================================================ */
-  document.addEventListener('DOMContentLoaded', init);
-
   function init() {
     initSidebar();
     initTabs();
@@ -20,6 +20,17 @@
     initSidebarSearch();
     initHamburger();
   }
+
+  // Expose for loader.js to call after DOM injection
+  window.__appInit = init;
+
+  // Also call on charts.js side
+  document.addEventListener('DOMContentLoaded', function () {
+    // Only self-init if sections are already in DOM (no loader scenario)
+    if (!document.querySelector('#section-s1-overview')) {
+      init();
+    }
+  });
 
   /* ============================================================
      2. SIDEBAR – collapsible groups

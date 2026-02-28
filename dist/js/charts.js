@@ -5,10 +5,24 @@
 (function () {
   'use strict';
 
-  document.addEventListener('DOMContentLoaded', function () {
+  function initCharts() {
     initLangBars();
     initCounters();
     initChartTags();
+  }
+
+  // Expose for loader.js; also chain onto __appInit
+  var _prevAppInit = window.__appInit;
+  window.__appInit = function () {
+    if (typeof _prevAppInit === 'function') _prevAppInit();
+    initCharts();
+  };
+
+  // Fallback: if no loader, run on DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!document.querySelector('#section-s1-overview')) {
+      initCharts();
+    }
   });
 
   /* ============================================================
