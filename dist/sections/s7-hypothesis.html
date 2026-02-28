@@ -14,15 +14,23 @@
         <!-- Stat comparison -->
         <div class="hypo-stats">
           <div class="hypo-stat blue-stat">
-            <div class="hs-label">🗺️ Quảng Nam</div>
-            <div class="hs-mean" data-count="4.65" data-suffix="">4.65</div>
-            <div class="hs-detail">ĐTB Toán · Std ≈ 1.65</div>
+            <div class="hs-label">Quảng Nam</div>
+            <div class="hs-mean" data-count="4.6488" data-suffix="">4.6488</div>
+            <div class="hs-detail">ĐTB Toán · Std = 1.6233 · n = 18,047</div>
           </div>
           <div class="hypo-stat red-stat">
-            <div class="hs-label">🏙️ Đà Nẵng</div>
-            <div class="hs-mean" data-count="5.12" data-suffix="">5.12</div>
-            <div class="hs-detail">ĐTB Toán · Std ≈ 1.78</div>
+            <div class="hs-label">Đà Nẵng</div>
+            <div class="hs-mean" data-count="5.1873" data-suffix="">5.1873</div>
+            <div class="hs-detail">ĐTB Toán · Std = 1.7068 · n = 14,202</div>
           </div>
+        </div>
+
+        <!-- Delta highlight -->
+        <div style="text-align:center; margin: 12px 0 20px;">
+          <span style="display:inline-block; background:#f0f4ff; border:1px solid #c5d3f0; border-radius:8px; padding:8px 22px; font-size:14px; color:#333;">
+            Chênh lệch ĐTB: <strong style="font-size:17px; color:#e74c3c;">0.5385 điểm</strong>
+            &nbsp;|&nbsp; Đà Nẵng cao hơn Quảng Nam <strong style="color:#e74c3c;">≈ 11.6%</strong>
+          </span>
         </div>
 
         <!-- Test procedure -->
@@ -30,16 +38,90 @@
         <div class="highlight-box">
           <ol style="padding-left:22px; font-size:13.5px; line-height:2;">
             <li><strong>Kiểm định Levene</strong> – kiểm tra đồng nhất phương sai (H₀: σ₁² = σ₂²)</li>
-            <li><strong>Welch's t-test (hai phía)</strong> – H₀: μ_QN = μ_ĐN, α = 0.05</li>
+            <li><strong>Welch's t-test (hai phía)</strong> – H₀: μ<sub>QN</sub> = μ<sub>ĐN</sub>, α = 0.05 (dùng khi phương sai khác nhau)</li>
             <li><strong>Effect size: Cohen's d</strong> – đánh giá mức độ khác biệt thực tế</li>
-            <li><strong>Mann-Whitney U</strong> – kiểm tra phi tham số bổ sung</li>
+            <li><strong>Mann-Whitney U</strong> – kiểm tra phi tham số bổ sung (không giả định phân phối chuẩn)</li>
           </ol>
         </div>
 
-        <!-- Result -->
+        <!-- Detailed results table -->
+        <h4>Kết quả từng bước kiểm định</h4>
+        <div style="overflow-x:auto; margin-bottom:18px;">
+          <table style="width:100%; border-collapse:collapse; font-size:13.5px;">
+            <thead>
+              <tr style="background:#6c63ff; color:#fff;">
+                <th style="padding:9px 14px; text-align:left; border-radius:6px 0 0 0;">Bước</th>
+                <th style="padding:9px 14px; text-align:left;">Kiểm định</th>
+                <th style="padding:9px 14px; text-align:center;">Statistic</th>
+                <th style="padding:9px 14px; text-align:center;">p-value</th>
+                <th style="padding:9px 14px; text-align:left; border-radius:0 6px 0 0;">Kết luận</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:#f8f8fc;">
+                <td style="padding:8px 14px; border-bottom:1px solid #e8e8f0;">1</td>
+                <td style="padding:8px 14px; border-bottom:1px solid #e8e8f0;"><strong>Levene's test</strong><br><small style="color:#888;">H₀: σ₁² = σ₂²</small></td>
+                <td style="padding:8px 14px; border-bottom:1px solid #e8e8f0; text-align:center; font-family:monospace;">F = 60.6959</td>
+                <td style="padding:8px 14px; border-bottom:1px solid #e8e8f0; text-align:center;">
+                  <span style="background:#ffeaea; color:#c0392b; padding:2px 8px; border-radius:4px; font-size:12px; font-family:monospace;">6.86 × 10⁻¹⁵</span>
+                </td>
+                <td style="padding:8px 14px; border-bottom:1px solid #e8e8f0;">
+                  <span style="color:#c0392b; font-weight:600;">Bác bỏ H₀</span><br>
+                  <small>Phương sai KHÁC NHAU → dùng Welch's t-test</small>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:8px 14px; border-bottom:1px solid #e8e8f0;">2</td>
+                <td style="padding:8px 14px; border-bottom:1px solid #e8e8f0;"><strong>Welch's t-test</strong><br><small style="color:#888;">H₀: μ₁ = μ₂ (hai phía)</small></td>
+                <td style="padding:8px 14px; border-bottom:1px solid #e8e8f0; text-align:center; font-family:monospace;">t = −28.7378</td>
+                <td style="padding:8px 14px; border-bottom:1px solid #e8e8f0; text-align:center;">
+                  <span style="background:#ffeaea; color:#c0392b; padding:2px 8px; border-radius:4px; font-size:12px; font-family:monospace;">3.62 × 10⁻¹⁷⁹</span>
+                </td>
+                <td style="padding:8px 14px; border-bottom:1px solid #e8e8f0;">
+                  <span style="color:#c0392b; font-weight:600;">Bác bỏ H₀ (***)</span><br>
+                  <small>Chênh lệch <strong>có ý nghĩa</strong> thống kê. Đà Nẵng cao hơn.</small>
+                </td>
+              </tr>
+              <tr style="background:#f8f8fc;">
+                <td style="padding:8px 14px; border-bottom:1px solid #e8e8f0;">3</td>
+                <td style="padding:8px 14px; border-bottom:1px solid #e8e8f0;">
+                  <strong>Cohen's d</strong><br>
+                  <small style="color:#888;">Effect size</small>
+                </td>
+                <td style="padding:8px 14px; border-bottom:1px solid #e8e8f0; text-align:center; font-family:monospace;">d = −0.3243</td>
+                <td style="padding:8px 14px; border-bottom:1px solid #e8e8f0; text-align:center;">—</td>
+                <td style="padding:8px 14px; border-bottom:1px solid #e8e8f0;">
+                  <span style="color:#e67e22; font-weight:600;">Nhỏ-vừa (small–medium)</span><br>
+                  <small>|d| ∈ (0.2, 0.5) → khác biệt thực tế ở mức nhỏ-vừa</small><br>
+                  <small style="color:#555;">
+                    Cohen's d đo chênh lệch giữa hai trung bình <em>tính theo đơn vị độ lệch chuẩn</em>:
+                    d = (μ<sub>QN</sub> − μ<sub>ĐN</sub>) / s<sub>pooled</sub>.
+                    Quy ước: |d| &lt; 0.2 = không đáng kể, 0.2–0.5 = nhỏ-vừa, 0.5–0.8 = vừa, &gt; 0.8 = lớn.
+                    Ở đây d ≈ −0.32 nghĩa là ĐTB Toán của Đà Nẵng cao hơn Quảng Nam khoảng <strong>0.32 lần độ lệch chuẩn</strong> — có ý nghĩa thực tế nhưng không quá lớn.
+                    Với cỡ mẫu n &gt; 30,000, p-value cực nhỏ không đồng nghĩa với chênh lệch lớn; effect size mới phản ánh <em>tầm quan trọng thực tiễn</em>.
+                  </small>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:8px 14px;">4</td>
+                <td style="padding:8px 14px;"><strong>Mann-Whitney U</strong><br><small style="color:#888;">Phi tham số</small></td>
+                <td style="padding:8px 14px; text-align:center; font-family:monospace;">U = 104,281,276</td>
+                <td style="padding:8px 14px; text-align:center;">
+                  <span style="background:#ffeaea; color:#c0392b; padding:2px 8px; border-radius:4px; font-size:12px; font-family:monospace;">4.81 × 10⁻¹⁸²</span>
+                </td>
+                <td style="padding:8px 14px;">
+                  <span style="color:#c0392b; font-weight:600;">Bác bỏ H₀ (***)</span><br>
+                  <small>Xác nhận kết quả t-test — bền vững với phân phối không chuẩn</small>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Result banner -->
         <div class="result-banner reject">
           <span class="rb-icon">❌</span>
-          <span><strong>BÁC BỎ H₀</strong> — Có sự khác biệt có ý nghĩa thống kê (p &lt; 0.001). Đà Nẵng có ĐTB Toán cao hơn Quảng Nam. Cohen's d cho thấy mức độ khác biệt nhỏ-vừa.</span>
+          <span><strong>BÁC BỎ H₀</strong> — Có sự khác biệt <strong>có ý nghĩa thống kê</strong> (p &lt; 0.001, mức *** ở cả hai kiểm định). Đà Nẵng có ĐTB Toán cao hơn Quảng Nam <strong>0.54 điểm</strong>. Cohen's d = −0.32 cho thấy mức độ khác biệt nhỏ-vừa.</span>
         </div>
 
         <!-- Charts -->
@@ -48,11 +130,28 @@
           <div class="chart-card-body">
             <img src="charts/hypothesis_toan_qnam_danang.png" alt="Hypothesis testing Toán">
           </div>
+          <div style="padding:10px 18px 14px; font-size:12.5px; color:#666; background:#fafafa; border-top:1px solid #ececec;">
+            <strong>Đọc biểu đồ:</strong> Histogram (trái) cho thấy phân bố điểm Toán của Đà Nẵng lệch phải so với Quảng Nam.
+            Box plot (phải) xác nhận median và mean (◆) Đà Nẵng đều cao hơn; đường dọt p-value *** ghi nhận ý nghĩa thống kê rất cao.
+          </div>
+        </div>
+
+        <!-- Interpretation -->
+        <h4>Diễn giải kết quả</h4>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px;">
+          <div style="background:#eaf4fb; border-left:4px solid #3498db; padding:12px 16px; border-radius:6px; font-size:13px;">
+            <strong>📌 Về mặt thống kê</strong><br>
+            Với p ≈ 3.6 × 10⁻¹⁷⁹ (Welch) và p ≈ 4.8 × 10⁻¹⁸² (Mann-Whitney), xác suất quan sát được chênh lệch này nếu H₀ đúng là <em>cực kỳ nhỏ</em>. Kết quả bền vững qua cả phương pháp tham số lẫn phi tham số.
+          </div>
+          <div style="background:#fef9ec; border-left:4px solid #f39c12; padding:12px 16px; border-radius:6px; font-size:13px;">
+            <strong>📏 Về mặt ứng dụng</strong><br>
+            Cohen's d = −0.32 cho thấy chênh lệch ở mức <strong>nhỏ-vừa</strong> — tức là khoảng cách có thực và đáng chú ý, nhưng không nghiêm trọng: một học sinh Quảng Nam trung bình <strong>vẫn hoàn toàn có thể cạnh tranh</strong> với học sinh Đà Nẵng. Khoảng cách này đủ để đưa ra khuyến nghị đầu tư có trọng điểm, nhưng <strong>không cần</strong> cải tổ toàn diện hệ thống giáo dục sau sáp nhập.
+          </div>
         </div>
 
         <h4>Ý nghĩa sau sáp nhập</h4>
         <div class="callout">
-          Kết quả kiểm định cho thấy hai tỉnh có nền giáo dục với chất lượng khác nhau có ý nghĩa thống kê. Việc sáp nhập hành chính cần đi kèm với chính sách san bằng khoảng cách này — đặc biệt trong đầu tư cơ sở hạ tầng giáo dục tại các huyện vùng cao của Quảng Nam.
+          Kết quả kiểm định cho thấy hai tỉnh có nền giáo dục với chất lượng khác nhau <strong>có ý nghĩa thống kê</strong>, dù mức độ chênh lệch thực tế ở ngưỡng nhỏ-vừa. Đà Nẵng — với lợi thế đô thị và tập trung dân số đông hơn tại trung tâm thành phố — dẫn đầu về ĐTB Toán. Việc sáp nhập hành chính cần đi kèm với chính sách san bằng khoảng cách này — đặc biệt trong đầu tư cơ sở hạ tầng giáo dục tại các huyện vùng cao và miền núi của Quảng Nam (Tây Giang, Nam Giang, Phước Sơn...).
         </div>
       </div>
     </section>
