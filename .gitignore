@@ -3,7 +3,9 @@
 
 # Raw data (có thể chứa dữ liệu nhạy cảm)
 raw_data/
-old_html/
+
+# Archive (phiên bản cũ, không cần theo dõi)
+archive/
 
 # Dữ liệu đã xử lý (file lớn)
 combined_data.parquet
@@ -15,3 +17,4 @@ combined_data.parquet
 __pycache__/
 *.pyc
 *.pyo
+.venv/
