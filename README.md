@@ -17,64 +17,118 @@ Dự án cung cấp hệ thống báo cáo số hóa, trực quan hóa và phân
 
 👉 **[Xem bản báo cáo tại GitHub Pages](https://minhtriet-le.github.io/graduation_score_2025/)**
 
+---
+
 ## 📂 Cấu trúc dự án
 
-- `charts/` — Chứa toàn bộ biểu đồ, heatmap, scatter plot, kết quả clustering, v.v.
-- `dist/` — Website đã build sẵn (HTML, CSS, JS) để xem báo cáo offline hoặc deploy.
-- `process.ipynb` — Notebook xử lý dữ liệu, phân tích thống kê, sinh biểu đồ.
-- `combined_data.parquet` — Dữ liệu đã tổng hợp, dùng cho phân tích (không bắt buộc phải có khi sử dụng website).
-- `raw_data/` — Dữ liệu gốc (Excel, có thể chứa dữ liệu nhạy cảm, không chia sẻ công khai).
+```
+graduation_score_2025/
+│
+├── src/                        ← Python modules (tái sử dụng)
+│   ├── config.py               ← Hằng số: nhãn môn, màu sắc, bảng mã tỉnh...
+│   ├── etl.py                  ← export_to_parquet(), add_province_columns()
+│   ├── plotting.py             ← Hàm vẽ biểu đồ histogram, bar, heatmap, K-Means
+│   └── stats.py                ← compare_two_groups() – kiểm định thống kê
+│
+├── notebooks/
+│   ├── 01_etl.ipynb            ← ETL: Excel → Parquet + thêm cột tỉnh
+│   ├── 02_eda.ipynb            ← EDA: thống kê mô tả, histogram, heatmap
+│   ├── 03_clustering.ipynb     ← K-Means đơn môn & đa môn (Tự Nhiên, Xã Hội)
+│   ├── 04_hypothesis.ipynb     ← Kiểm định giả thuyết thống kê
+│   └── 05_build.ipynb          ← Chạy toàn bộ pipeline tự động
+│
+├── dist/                       ← Website báo cáo (HTML/CSS/JS)
+│   ├── index.html
+│   ├── sections/               ← Từng section báo cáo
+│   ├── charts/                 ← Biểu đồ xuất ra (PNG)
+│   ├── css/
+│   └── js/
+│
+├── raw_data/                   ← Dữ liệu gốc Excel (không chia sẻ công khai)
+├── combined_data.parquet       ← Dữ liệu đã xử lý
+├── Makefile                    ← make etl / analysis / build / all / clean
+├── requirements.txt
+└── README.md
+```
 
-## Quy trình phân tích & kỹ thuật sử dụng
+---
 
-1. **Tiền xử lý dữ liệu**: Tổng hợp, làm sạch dữ liệu điểm từ nhiều nguồn, chuẩn hóa định dạng, loại bỏ giá trị ngoại lai.
-2. **Phân tích thống kê mô tả**: Tính toán các chỉ số trung bình, phương sai, phân phối điểm từng môn, từng nhóm đối tượng.
-3. **Trực quan hóa dữ liệu**: Sinh các biểu đồ histogram, bar chart, scatter plot, heatmap tương quan, giúp nhận diện xu hướng và mối liên hệ giữa các môn.
-4. **Phân tích nâng cao**:
-   - Phân cụm học sinh theo điểm số (KMeans clustering)
-   - Kiểm định giả thuyết thống kê giữa các nhóm, các vùng miền
-   - So sánh phân phối điểm giữa các năm, các tổ hợp môn
-5. **Xây dựng báo cáo số**: Tổng hợp kết quả, xuất biểu đồ, xây dựng website báo cáo tương tác.
+## 📊 Nội dung phân tích
 
-## 📊 Nội dung báo cáo
+| Notebook | Nội dung |
+|---|---|
+| `01_etl` | Đọc nhiều file Excel, chuẩn hoá cột, thêm mã tỉnh, xuất Parquet |
+| `02_eda` | Thống kê mô tả (mean/std/skewness), histogram từng môn, bar chart Ngoại ngữ, heatmap tương quan |
+| `03_clustering` | K-Means theo tỉnh: đơn môn (Toán, Văn, Lý, Hóa) + đa môn (khối Tự Nhiên, Xã Hội); Elbow + Silhouette để chọn K |
+| `04_hypothesis` | Levene's test + Welch's t-test + Cohen's d + Mann-Whitney U; dễ mở rộng thêm cặp so sánh |
 
-Báo cáo gồm:
+**Môn thi được phân tích:** Toán, Ngữ văn, Vật lí, Hóa học, Sinh học, Lịch sử, Địa lí, Tin học, Công nghệ (CN/NN), Giáo dục KT&PL, Giáo dục Công dân, Ngoại ngữ (Anh, Nga, Pháp, Trung, Đức, Nhật, Hàn).
 
-- Phân phối điểm các môn: Toán, Ngữ văn, Vật lí, Hóa học, Sinh học, Lịch sử, Địa lí, Tin học, Công nghệ, Giáo dục Kinh tế & Pháp luật, Giáo dục Công dân, Ngoại ngữ (Anh, Nga, Pháp, Trung, Đức, Nhật, Hàn)
-- Biểu đồ so sánh, heatmap tương quan giữa các môn
-- Phân tích số lượng môn thi, phân cụm học sinh theo điểm số (KMeans)
-- Một số kiểm định giả thuyết thống kê (so sánh trung bình, kiểm định phân phối, v.v.)
-- Các biểu đồ chuyên sâu: phân tích theo vùng miền, tổ hợp môn, nhóm đối tượng
+---
 
 ## 🛠️ Công nghệ & công cụ
 
-- **Python 3.x** — Ngôn ngữ chính cho xử lý và phân tích dữ liệu
-- **Pandas, Numpy** — Xử lý, tổng hợp dữ liệu
-- **Matplotlib, Seaborn** — Trực quan hóa dữ liệu
-- **Scikit-learn** — Phân cụm, phân tích nâng cao
-- **Jupyter Notebook** (`process.ipynb`) — Quy trình phân tích, sinh biểu đồ, tài liệu hóa từng bước
-- **HTML/CSS/JS** (thư mục `dist/`) — Hiển thị báo cáo, tương tác biểu đồ
+| Thư viện | Mục đích |
+|---|---|
+| `pandas`, `numpy` | Xử lý, tổng hợp dữ liệu |
+| `pyarrow` | Đọc/ghi Parquet hiệu quả |
+| `matplotlib`, `seaborn` | Trực quan hoá |
+| `scikit-learn` | K-Means clustering, StandardScaler, Silhouette Score |
+| `scipy` | Kiểm định thống kê (t-test, Levene, Mann-Whitney) |
+| `unidecode` | Chuẩn hoá tên cột tiếng Việt |
+| `nbconvert` | Chạy notebook tự động qua Makefile |
+
+---
 
 ## 📦 Hướng dẫn sử dụng
 
 ### Xem báo cáo
 
-1. **Khuyên dùng:** Truy cập GitHub Pages để xem báo cáo trực tuyến.
-2. **Xem offline:** Clone repo, mở file `dist/index.html` bằng trình duyệt.
+1. **Trực tuyến (khuyên dùng):** [GitHub Pages](https://minhtriet-le.github.io/graduation_score_2025/)
+2. **Offline:** Clone repo → mở `dist/index.html` bằng trình duyệt.
 
-### Tái tạo phân tích & biểu đồ
+### Cài đặt môi trường
 
-1. Cài Python 3.x và các thư viện cần thiết:
-   ```bash
-   pip install pandas numpy matplotlib seaborn scikit-learn jupyter
-   ```
-2. Mở và chạy toàn bộ notebook `process.ipynb` để sinh lại các biểu đồ, bảng phân tích.
-3. Kết quả sẽ được lưu vào thư mục `charts/` và có thể cập nhật vào website (`dist/`).
+```bash
+git clone https://github.com/minhtriet-le/graduation_score_2025.git
+cd graduation_score_2025
+make install          # tạo .venv và cài requirements.txt
+```
 
-### Cấu hình & mở rộng
+Hoặc cài thủ công:
 
-- Có thể thay thế dữ liệu gốc trong `raw_data/` để phân tích các năm khác.
-- Tùy chỉnh, mở rộng các phân tích trong notebook theo nhu cầu.
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+### Tái tạo toàn bộ phân tích & biểu đồ
+
+```bash
+# Khi có dữ liệu Excel mới trong raw_data/
+make etl
+
+# Tái sinh toàn bộ chart (không cần chạy lại ETL)
+make build
+
+# ETL + build cùng lúc
+make all
+
+# Xoá chart cũ
+make clean
+```
+
+Hoặc chạy từng notebook thủ công trong `notebooks/`.
+
+### Mở rộng phân tích
+
+- **Thêm cặp kiểm định mới:** Mở `04_hypothesis.ipynb`, gọi `compare_two_groups()` với tham số tuỳ chỉnh.
+- **Thêm môn clustering:** Trong `03_clustering.ipynb`, gọi `kmeans_subject_2d()` hoặc `kmeans_multi_subject_2d()`.
+- **Thay dữ liệu năm khác:** Đặt file `.xlsx` mới vào `raw_data/`, chạy `make etl`.
+- **Sửa hằng số chung:** Chỉnh sửa tập trung tại `src/config.py`.
+
+---
 
 ## Đóng góp & phát triển
 
